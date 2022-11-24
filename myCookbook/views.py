@@ -11,3 +11,15 @@ def allRecipes(request):
 
 def contactUs(request):
     return render(request, "myCookbook/contactUs.html")
+
+def login(request):
+    return render(request, "myCookbook/login.html")
+
+def signUp(request):
+    return render(request, "myCookbook/signUp.html")
+
+def myCookbook(request):
+    return render(request, "myCookbook/myCookbook.html")
+
+def profile(request):
+    return render(request, "myCookbook/profile.html")

@@ -44,19 +44,17 @@
 
                 <ul class="navbar-nav d-flex flex-column ms-auto me-5 ps-5">
                     <li class="nav-item">
-                        <a class="nav-link" href="">Login/Register</a>
+                        <a class="nav-link" href="{% url 'login' %}">Login/Register</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'allRecipes' %}">My Cookbook</a>
+                        <a class="nav-link" href="{% url 'myCookbook' %}">My Cookbook</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'addRecipe' %}">Profile</a>
+                        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
                     </li>
                 </ul>
-
-                <div class="navbar-text text-sm-right ps-5">Welcome!</div>
  
             </div>
         </nav>
