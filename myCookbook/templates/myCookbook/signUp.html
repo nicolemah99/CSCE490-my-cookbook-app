@@ -1,10 +1,46 @@
 {% extends "myCookbook/layout.html" %}
 {% load static %}
 {% block title %}
-    <title>Sign Up</title>
+<title>Sign Up</title>
 {% endblock %}
 
 {% block main %}
+<div class="container">
+    <form novalidate action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-floating">
+            {{ form.username }}
+            <label for="username" class="form-label">Username</label>
+        </div>
+        <div class="form-floating">
+            {{ form.email }}
+            <label for="email" class="form-label">Email</label>
+        </div>
+        <div class="form-floating">
+            {{ form.password }}
+            <label for="password" class="form-label">Password</label>
+        </div>
+        <div class="form-floating">
+            <input class="form-control" type="password" name="confirmation" required placeholder="Confirm Password">
+            <label for="confirmation" class="form-label">Re-type Password</label>
+        </div>
+        <div class="form-floating">
+            {{ form.bio }}
+            <label for="bio" class="form-label">Tell us about yourself</label>
+        </div>
 
+        {{ form.theme }}
+
+        {{ form.profile_image }}
+
+
+        <input type="submit" value="Sign Up" class="btn btn-primary">
+    </form>
+
+    <p>
+        Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+    </p>
+
+</div>
 
 {% endblock %}

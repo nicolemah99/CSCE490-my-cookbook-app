@@ -21,10 +21,10 @@ class User(AbstractUser):
     num_recipes_posted = models.IntegerField(default=0)
     profile_image = models.ImageField(upload_to='myCookbook/static/myCookbook/images',
                                       default='myCookbook/static/myCookbook/images/default_profile.png', blank=True, verbose_name="Profile Image")
-    theme = models.CharField(max_length=9, choices=THEMES)
+    theme = models.CharField(default=THEMES[0],max_length=9, choices=THEMES)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.username}"
 
     def get_full_name(self) -> str:
         return super().get_full_name()
