@@ -5,14 +5,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
-from .models import User
-from .forms import UserForm
+from .models import User,Recipe,RecipeIngredient,Ingredient
+from .forms import UserForm,RecipeForm
 
 def index(request):
     return render(request, "myCookbook/index.html")
 
 def addRecipe(request):
-    return render(request, "myCookbook/addRecipe.html")
+    recipeForm = RecipeForm
+    return render(request, "myCookbook/addRecipe.html",{"form": recipeForm})
 
 def allRecipes(request):
     return render(request, "myCookbook/allRecipes.html")

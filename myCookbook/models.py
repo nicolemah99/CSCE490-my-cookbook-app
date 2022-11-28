@@ -17,10 +17,10 @@ class User(AbstractUser):
         ('info', 'Teal'),
     )
     bio = models.TextField(max_length=500, blank=True)
-    num_recipes_saved = models.IntegerField(default=0)
-    num_recipes_posted = models.IntegerField(default=0)
-    profile_image = models.ImageField(upload_to='myCookbook/static/myCookbook/images',
-                                      default='myCookbook/static/myCookbook/images/default_profile.png', blank=True, verbose_name="Profile Image")
+    num_recipes_saved = models.IntegerField(default=0,validators=[MinValueValidator(0)])
+    num_recipes_posted = models.IntegerField(default=0,validators=[MinValueValidator(0)])
+    profile_image = models.ImageField(upload_to='myCookbook/static/myCookbook/profile',
+                                      default='myCookbook/static/myCookbook/profile/default_profile.png', blank=True, verbose_name="Profile Image")
     theme = models.CharField(default=THEMES[0],max_length=9, choices=THEMES)
 
     def __str__(self):
@@ -31,6 +31,12 @@ class User(AbstractUser):
 
     def get_username(self) -> str:
         return super().get_username()
+
+class Ingredient(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return f"{self.name}"
 
 class Recipe(models.Model):
     RATINGS = (
@@ -48,6 +54,13 @@ class Recipe(models.Model):
     min = models.IntegerField(validators=[MinValueValidator(5), MaxValueValidator(1000)])
     rating = models.PositiveSmallIntegerField(choices=RATINGS)
     savers = models.ManyToManyField(User, blank=True, related_name="saved_recipes")
+    ingredients = models.ManyToManyField(
+        Ingredient,
+        through='RecipeIngredient',
+        through_fields=('recipe','ingredient'),
+    )
+    image = models.ImageField(upload_to='myCookbook/static/myCookbook/recipe',
+                                      default='myCookbook/static/myCookbook/images/default_profile.png', blank=True, verbose_name="Recipe Image")
 
 class RecipeIngredient(models.Model):
     UNITS = (
@@ -58,6 +71,9 @@ class RecipeIngredient(models.Model):
         ('Ts', 'Teaspoon')
     )
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    name = models.CharField(max_length=64)
-    quantity = models.DecimalField(decimal_places= 2,max_digits=3)
+    ingredient = models.ForeignKey(Ingredient, null=True, on_delete=models.CASCADE)
+    amount = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
     units = models.CharField(max_length=3, choices= UNITS)
+
+    def __str__(self):
+        return f"{self.amount} {self.units} {self.ingredient}"
