@@ -25,12 +25,18 @@
             {{ form.description }}
             <label for="description" class="form-label">Description</label>
         </div>
-        <div class="form-floating py-2">
-            {{ form.bio }}
-            <label for="bio" class="form-label">Tell us about yourself</label>
-        </div>
         <div class="py-2">
-            {{ form.num_servings }}
+            {{ form.ingredients }}
+        </div>
+        <div class="row">
+            <div class="col-auto py-2">
+                <label for="num_servings" class="form-label">Number of Servings</label>
+                {{ form.num_servings }}
+            </div>
+            <div class=" col-auto py-2">
+                <label for="min" class="form-label">Total Time</label>
+                {{ form.min }}
+            </div>
         </div>
         <div class="py-2">
             {{ form.image }}
