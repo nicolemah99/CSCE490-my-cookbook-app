@@ -7,6 +7,22 @@ form.addEventListener('submit', e =>  {
     form.classList.add('was-validated')
 })
 
+function addInstructionElement() {
+    const element = document.getElementById("instructionList");
+    var IG = document.createElement('div');
+    var IGT = document.createElement('div');
+    var I1 = document.createElement('input');
+    IG.className = "input-group";
+    IGT.className = 'input-group-text';
+    I1.className = 'form-control';
+    I1.type = 'text';
+    I1.placeholder = 'Add Instruction';
+    IG.append(IGT);
+    IG.append(I1);
+
+    element.append(IG);
+}
+
 function addIngredientElement() {
     const element = document.getElementById("ingredientList");
     var IG = document.createElement('div');
@@ -27,7 +43,7 @@ function addIngredientElement() {
     I3.className = 'form-control custom-select';
     I1.type = 'text';
     I2.type = 'number';
-    I1.placeholder = 'Add an Ingredient';
+    I1.placeholder = 'Ingredient';
     I2.placeholder = 'Quantity';
     O1.selected;
     O1.innerHTML = 'Choose a Unit';

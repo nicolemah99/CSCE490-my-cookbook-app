@@ -42,7 +42,7 @@
             <p>Ingredients</p>
             <div class="input-group">
                 <div class="input-group-text"></div>
-                <input class="form-control" type="text" placeholder="Add an Ingredient">
+                <input class="form-control" type="text" placeholder="Ingredient">
                 <input class="form-control" type="number" placeholder="Quantity">
                 <select class="form-control custom-select">
                     <option selected>Choose a Unit</option>
@@ -57,6 +57,17 @@
         </div>
         <br>
         <button class="btn btn-dark" onclick="addIngredientElement()" id="addIngredient">Add Ingredient</button>
+
+        <div class="py-2" id="instructionList">
+            <p>Instructions</p>
+            <div class="input-group">
+                <div class="input-group-text"></div>
+                <input class="form-control" type="text" placeholder="Add Instruction">
+            </div>
+    
+        </div>
+        <br>
+        <button class="btn btn-dark" onclick="addInstructionElement()" id="addInstruction">Add Instruction</button>
 
         <div class="py-2">
             {{ form.image }}
