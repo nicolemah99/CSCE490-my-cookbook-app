@@ -6,5 +6,63 @@
 
 {% block main %}
 
+<div class="container">
+    {% if message %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Wait!</strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+    {% endif %}
+    <h1>Add a New Recipe!</h1>
+    <form novalidate action="{% url 'addRecipe' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-floating py-2">
+            {{ form.name }}
+            <label for="username" class="form-label">Name</label>
+        </div>
+        <div class="form-floating py-2">
+            {{ form.description }}
+            <label for="description" class="form-label">Description</label>
+        </div>
+        <div class="py-2">
+            {{ form.ingredients }}
+        </div>
+        <div class="row">
+            <div class="col-auto py-2">
+                <label for="num_servings" class="form-label">Number of Servings</label>
+                {{ form.num_servings }}
+            </div>
+            <div class=" col-auto py-2">
+                <label for="min" class="form-label">Total Time</label>
+                {{ form.min }}
+            </div>
+        </div>
+        <div class="py-2" id="ingredientList">
+            <p>Ingredients</p>
+            <div class="input-group">
+                <div class="input-group-text"></div>
+                <input class="form-control" type="text" placeholder="Add an Ingredient">
+                <input class="form-control" type="number" placeholder="Quantity">
+                <select class="form-control custom-select">
+                    <option selected>Choose a Unit</option>
+                    <option value="C">Cup</option>
+                    <option value="OZ">Ounce</option>
+                    <option value="LB">Pound</option>
+                    <option value="TB">Tablespoon</option>
+                    <option value="TS">Teaspoon</option>
+                </select>
+            </div>
+        
+        </div>
+        <br>
+        <button class="btn btn-dark" onclick="addIngredientElement()" id="addIngredient">Add Ingredient</button>
 
+        <div class="py-2">
+            {{ form.image }}
+        </div>
+        <input type="submit" value="Add Recipe" class="btn btn-primary">
+    </form>
+
+</div>
 {% endblock %}

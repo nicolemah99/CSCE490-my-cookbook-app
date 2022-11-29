@@ -1,10 +1,56 @@
 {% extends "myCookbook/layout.html" %}
 {% load static %}
 {% block title %}
-    <title>Sign Up</title>
+<title>Sign Up</title>
 {% endblock %}
 
 {% block main %}
+<div class="container">
+    {% if message %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Wait!</strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+    {% endif %}
+    <h1>Become a chef today!</h1>
+    <form novalidate action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-floating py-2">
+            {{ form.username }}
+            <label for="username" class="form-label">Username</label>
+        </div>
+        <div class="form-floating py-2">
+            {{ form.email }}
+            <label for="email" class="form-label">Email</label>
+        </div>
+        <div class="form-floating py-2">
+            {{ form.password }}
+            <label for="password" class="form-label">Password</label>
+        </div>
+        <div class="form-floating py-2">
+            <input class="form-control" type="password" name="confirmation" required placeholder="Confirm Password">
+            <label for="confirmation" class="form-label">Re-type Password</label>
+        </div>
+        <div class="form-floating py-2">
+            {{ form.bio }}
+            <label for="bio" class="form-label">Tell us about yourself</label>
+        </div>
+        <div class="py-2">
+            {{ form.theme }}
+        </div>
+        <div class="py-2">
+            {{ form.profile_image }}
+        </div>
 
+
+        <input type="submit" value="Sign Up" class="btn btn-primary">
+    </form>
+
+    <p>
+        Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+    </p>
+
+</div>
 
 {% endblock %}

@@ -1,10 +1,32 @@
 {% extends "myCookbook/layout.html" %}
 {% load static %}
 {% block title %}
-    <title>Login</title>
+<title>Login</title>
 {% endblock %}
 
 {% block main %}
+<div class="container">
+    {% if message %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Wait!</strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+    {% endif %}
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="password" placeholder="Password">
+        </div>
+        <input type="submit" value="Login">
+    </form>
+    <p>
+        Don't have an account? <a href="{% url 'signUp' %}">Sign Up here.</a>
+    </p>
+</div>
 
 
 {% endblock %}
