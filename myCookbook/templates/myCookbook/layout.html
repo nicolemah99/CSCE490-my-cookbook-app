@@ -76,6 +76,25 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <script src="myCookbook/static/myCookbook/myCookbook.js"></script>
+    <script>
+        function addInstructionElement() {
+            const element = document.getElementById("instructionList");
+            var IG = document.createElement('div');
+            var IGT = document.createElement('div');
+            var I1 = document.createElement('input');
+            IG.className = "input-group";
+            IGT.className = 'input-group-text';
+            I1.className = 'form-control';
+            I1.name = 'instruction';
+            I1.type = 'text';
+            I1.placeholder = 'Add Instruction';
+            IG.append(IGT);
+            IG.append(I1);
+
+            element.append(IG);
+        }
+
+    </script>
 
 </body>
 

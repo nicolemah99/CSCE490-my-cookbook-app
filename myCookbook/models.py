@@ -49,10 +49,9 @@ class Recipe(models.Model):
     description = models.TextField(max_length=500)
     date_posted = models.DateField(
         default=date.today, verbose_name="Date Posted")
-    num_servings = models.IntegerField(
-        default=0, validators=[MinValueValidator(1)])
-    min = models.IntegerField(default=0, validators=[
-                              MinValueValidator(0), MaxValueValidator(1000)])
+    num_servings = models.IntegerField(null=True,validators=[MinValueValidator(1)])
+    min = models.IntegerField(null=True, validators=[
+                              MinValueValidator(1), MaxValueValidator(1000)])
     rating = models.PositiveSmallIntegerField(default=0,choices=RATINGS)
     savers = models.ManyToManyField(
         User, blank=True, related_name="saved_recipes")
