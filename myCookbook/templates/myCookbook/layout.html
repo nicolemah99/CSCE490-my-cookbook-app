@@ -44,6 +44,7 @@
                 <ul class="navbar-nav d-flex flex-column ms-auto me-5 ps-5">
                     {% if user.is_authenticated %}
                     Welcome chef,<strong>{{ user.username }}!</strong>
+                    <a href="{% url 'password_change' %}"> Change Password</a>
                     <li class="nav-item">
                         <a href="{% url 'logout' %}" class="nav-link">Log Out</a>
                     </li>

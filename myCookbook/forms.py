@@ -1,5 +1,6 @@
 from .models import User, Recipe, Ingredient
 from django import forms
+from django.contrib.auth.forms import PasswordResetForm
 
 
 class UserForm(forms.ModelForm):
@@ -36,3 +37,8 @@ class IngredientsForm(forms.ModelForm):
     class Meta:
         model = Ingredient
         fields = ('name','amount')
+
+class MyPasswordResetForm(PasswordResetForm):
+    def is_valid(self):
+        email = self.data["email"]
+        return super().is_valid()
