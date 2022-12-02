@@ -31,21 +31,20 @@ class addRecipe(View):
         return render(request, "myCookbook/addRecipe.html", {"form": recipeForm})
 
     def post(self, request):
-        form = RecipeForm
-        name = request.POST['name']
-        description = request.POST['description']
-        num_servings = request.POST['num_servings']
-        min = request.POST['min']
-        author = request.user
+        form = RecipeForm(request.POST, request.FILES)
+        newRecipe = form.save(commit=False)
+        newRecipe.author = request.user
+        #author = request.user
         instructions = request.POST.getlist('instructions')
         ingredients = request.POST.getlist('ingredients')
-        #instructions = list_to_string(instructions)
         ingredients = grouper(3,ingredients)
-        
-        newRecipe = Recipe(author= author, name=name, instructions=instructions, ingredients=ingredients, description=description, num_servings=num_servings,min=min)
+        newRecipe.instructions = instructions
+        newRecipe.ingredients = ingredients
+
+        #newRecipe = Recipe(author= author, name=name, instructions=instructions, ingredients=ingredients, description=description, num_servings=num_servings,min=min)
         newRecipe.save()
         messages.success(request, f'Recipe posted!')
-        return render(request, 'myCookbook/addRecipe.html', {"form":form, 'ingredients':ingredients})
+        return render(request, 'myCookbook/addRecipe.html', {"form":form})
 
 def allRecipes(request):
     return render(request, "myCookbook/allRecipes.html")

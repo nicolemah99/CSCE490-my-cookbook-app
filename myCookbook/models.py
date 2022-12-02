@@ -21,8 +21,8 @@ class User(AbstractUser):
         default=0, validators=[MinValueValidator(0)], verbose_name="Number of Servings")
     num_recipes_posted = models.IntegerField(
         default=0, validators=[MinValueValidator(0)], verbose_name="Total Time")
-    profile_image = models.ImageField(upload_to='images/profileImages',
-                                      default='images/profileImages/default_profile.png', blank=True, verbose_name="Profile Image")
+    profile_image = models.ImageField(upload_to='images/profileImages/',
+                                      default='images/profileImages/default_profile.png', null=True, blank=True, verbose_name="Profile Image")
     theme = models.CharField(default=THEMES[0], max_length=9, choices=THEMES)
 
     def __str__(self):
