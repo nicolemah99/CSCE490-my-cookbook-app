@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+import json
 
 class User(AbstractUser):
     THEMES = (
@@ -46,6 +46,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     name = models.TextField(max_length=64)
+    instructions = models.TextField(null=True)
     description = models.TextField(max_length=500)
     date_posted = models.DateField(
         default=date.today, verbose_name="Date Posted")
@@ -57,8 +58,15 @@ class Recipe(models.Model):
         User, blank=True, related_name="saved_recipes")
     image = models.ImageField(upload_to='myCookbook/static/myCookbook/recipe',
                               default='myCookbook/static/myCookbook/images/default_profile.png', blank=True, verbose_name="Recipe Image")
+    def __str__(self):
+        return f"{self.name}"
+    
+    def set_json(self, x):
+        self.instructions = json.dumps(x)
 
-
+    def get_json(self, x):
+        return json.loads(self.instructions)
+        
 class Ingredient(models.Model):
     UNITS = (
         ('Lbs', 'Pounds'),

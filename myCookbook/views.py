@@ -7,7 +7,13 @@ from django.urls import reverse
 from django.views import View
 from .models import User, Recipe, Ingredient
 from .forms import UserForm, RecipeForm
+from django.http import QueryDict
+from django.views.generic.edit import CreateView
+from django.contrib import messages
 
+def list_to_string(list):
+    
+    return (''.join(list))
 
 def index(request):
     return render(request, "myCookbook/index.html")
@@ -15,16 +21,23 @@ def index(request):
 
 class addRecipe(View):
     def get(self, request):
-
         recipeForm = RecipeForm
         return render(request, "myCookbook/addRecipe.html", {"form": recipeForm})
 
     def post(self, request):
-        # Get values
-        recipeForm = RecipeForm
-        instruction = request.POST["instruction"]
-        return render(request, "myCookbook/addRecipe.html", {'instruction': instruction, "form": recipeForm})
-
+        form = RecipeForm
+        name = request.POST['name']
+        description = request.POST['description']
+        num_servings = request.POST['num_servings']
+        min = request.POST['min']
+        author = request.user
+        instructions = request.POST.getlist('instructions')
+        #instructions = list_to_string(instructions)
+        
+        newRecipe = Recipe(author= author, name=name, instructions=instructions,description=description, num_servings=num_servings,min=min)
+        newRecipe.save()
+        messages.success(request, f'Recipe posted successfully!')
+        return render(request, "myCookbook/addRecipe.html", {"instructions": instructions} )
 
 def allRecipes(request):
     return render(request, "myCookbook/allRecipes.html")

@@ -23,7 +23,7 @@ class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
         fields = ('name', 'description', 'num_servings',
-                  'min', 'image')
+                  'min', 'image', 'instructions')
         widgets = {'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Name"}),
                    'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': "Description"}),
                    'num_servings': forms.NumberInput(attrs={'class': 'form-control'}),
