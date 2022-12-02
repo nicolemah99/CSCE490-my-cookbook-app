@@ -8,11 +8,11 @@
 <div class="background">
 
 <div class="container">
-    <h1 class="display-1 text-center font-white">{{ user.first_name }} {{ user.last_name }}</h1>
-    <div class="card mb-3">
+    <h3 class="display-3 text-center font-white">{{ user.first_name }} {{ user.last_name }}</h3>
+    <div class="card mb-3 p-5">
         <div class="row g-0">
-            <div class="col-md-4">
-                <img src="{{user.profile_image}}" class="img-fluid rounded-start roundImage" alt="...">
+            <div class="col-md-4 pb-2">
+                <img src="{{user.profile_image}}" class="img-fluid roundImage" alt="...">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -36,7 +36,8 @@
     </div>
     <hr>
     <h5 class="display-5 text-center font-white">My Recipes</h5>
-    <div class="row sticky">
+    <br>
+    <div class="row">
         <div class="col-4">
           <div id="list-example" class="list-group">
             {% for r in recipes %}
@@ -47,11 +48,11 @@
         <div class="col-8">
           <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
             {% for r in recipes %}
-            <div class="white-card p-5">
+            <div class="recipe-card p-5">
               <div class="row py-3" id="list-item-{{forloop.counter}}">
                     <div class="col">
                         <div class="row">
-                            <img src="{{ r.image }}" class="img-fluid rounded-start" alt="...">
+                            <img src="{{ r.image }}" class="img-fluid" alt="...">
                         </div>
                     </div>
                     <div class="col">
@@ -80,6 +81,7 @@
             {% endfor %}
           </div>
         </div>
+      </div>
       </div>
 
     </div>
