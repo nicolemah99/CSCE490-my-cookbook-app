@@ -70,6 +70,20 @@
 
     </header>
     <main>
+        {% if message %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Yay!</strong> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+        {% endif %}
+        {% for m in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Yay!</strong> {{ m }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+        {% endfor %}
         {% block main %}
         {% endblock %}
     </main>
@@ -111,8 +125,11 @@
             IG.className = "input-group";
             IGT.className = 'input-group-text';
             I1.className = 'form-control';
+            I1.name = "ingredients";
             I2.className = 'form-control';
+            I2.name = "ingredients";
             I3.className = 'form-control custom-select';
+            I3.name = "ingredients";
             I1.type = 'text';
             I2.type = 'number';
             I1.placeholder = 'Ingredient';

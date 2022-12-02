@@ -47,6 +47,7 @@ class Recipe(models.Model):
         settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     name = models.TextField(max_length=64)
     instructions = models.TextField(null=True)
+    ingredients = models.TextField(null=True)
     description = models.TextField(max_length=500)
     date_posted = models.DateField(
         default=date.today, verbose_name="Date Posted")

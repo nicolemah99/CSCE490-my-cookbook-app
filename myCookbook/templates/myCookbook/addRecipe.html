@@ -7,14 +7,8 @@
 {% block main %}
 
 <div class="container">
-    {{ instructions }}
-    {% if message %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Wait!</strong> {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-        </button>
-    </div>
-    {% endif %}
+    {{ ingredients }}
+    <br>
     <h1>Add a New Recipe!</h1>
     <form novalidate action="{% url 'addRecipe' %}" method="POST">
         {% csrf_token %}
@@ -42,10 +36,10 @@
         <div class="py-2" id="ingredientList">
             <p>Ingredients</p>
             <div class="input-group">
-                <div class="input-group-text"></div>
-                <input class="form-control" type="text" placeholder="Ingredient">
-                <input class="form-control" type="number" placeholder="Quantity">
-                <select class="form-control custom-select">
+                <div class="input-group-text" name="ingredients"></div>
+                <input class="form-control" type="text" name="ingredients" placeholder="Ingredient">
+                <input class="form-control" type="number" name="ingredients" placeholder="Quantity">
+                <select class="form-control custom-select" name="ingredients">
                     <option selected>Choose a Unit</option>
                     <option value="C">Cup</option>
                     <option value="OZ">Ounce</option>
@@ -54,21 +48,23 @@
                     <option value="TS">Teaspoon</option>
                 </select>
             </div>
-        
+
         </div>
         <br>
-        <button type="button" class="btn btn-dark" onclick="addIngredientElement()" id="addIngredient">Add Ingredient</button>
+        <button type="button" class="btn btn-dark" onclick="addIngredientElement()" id="addIngredient">Add
+            Ingredient</button>
 
         <div class="py-2" id="instructionList">
             <p>Instructions</p>
             <div class="input-group">
                 <div class="input-group-text"></div>
-                <input class="form-control" name = "instructions" type="text" placeholder="Add Instruction">
+                <input class="form-control" name="instructions" type="text" placeholder="Add Instruction">
             </div>
-    
+
         </div>
         <br>
-        <button type="button" class="btn btn-dark" onclick="addInstructionElement()" id="addInstruction">Add Instruction</button>
+        <button type="button" class="btn btn-dark" onclick="addInstructionElement()" id="addInstruction">Add
+            Instruction</button>
 
         <div class="py-2">
             {{ form.image }}

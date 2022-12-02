@@ -1,10 +1,17 @@
 {% extends "myCookbook/layout.html" %}
 {% load static %}
 {% block title %}
-    <title>Home</title>
+<title>Home</title>
 {% endblock %}
 
 {% block main %}
-    <p>Success</p>
+
+{% if message %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Yay!</strong> {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+    </button>
+</div>
+{% endif %}
 
 {% endblock %}

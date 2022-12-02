@@ -10,10 +10,12 @@ from .forms import UserForm, RecipeForm
 from django.http import QueryDict
 from django.views.generic.edit import CreateView
 from django.contrib import messages
+from itertools import zip_longest
 
-def list_to_string(list):
-    
-    return (''.join(list))
+def grouper(n, iterable, fillvalue=None):
+    "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
+    args = [iter(iterable)] * n
+    return list(zip_longest(fillvalue=fillvalue, *args))
 
 def index(request):
     return render(request, "myCookbook/index.html")
@@ -32,12 +34,14 @@ class addRecipe(View):
         min = request.POST['min']
         author = request.user
         instructions = request.POST.getlist('instructions')
+        ingredients = request.POST.getlist('ingredients')
         #instructions = list_to_string(instructions)
+        ingredients = grouper(3,ingredients)
         
-        newRecipe = Recipe(author= author, name=name, instructions=instructions,description=description, num_servings=num_servings,min=min)
+        newRecipe = Recipe(author= author, name=name, instructions=instructions, ingredients=ingredients, description=description, num_servings=num_servings,min=min)
         newRecipe.save()
-        messages.success(request, f'Recipe posted successfully!')
-        return render(request, "myCookbook/addRecipe.html", {"instructions": instructions} )
+        messages.success(request, f'Recipe posted!')
+        return render(request, 'myCookbook/addRecipe.html', {"form":form, 'ingredients':ingredients})
 
 def allRecipes(request):
     return render(request, "myCookbook/allRecipes.html")
