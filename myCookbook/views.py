@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views import View
 from .models import User, Recipe, Ingredient
@@ -61,7 +62,6 @@ def register(request):
         email = request.POST["email"]
         bio = request.POST["bio"]
         theme = request.POST["theme"]
-        profile_image = request.POST["profile_image"]
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -74,7 +74,7 @@ def register(request):
         # Attempt to create new user
         try:
             user = User.objects.create_user(
-                username=username, email=email, password=password, theme=theme, bio=bio, profile_image=profile_image)
+                username=username, email=email, password=password, theme=theme, bio=bio)
             user.save()
         except IntegrityError:
             return render(request, "myCookbook/signUp.html", {'form': UserForm,

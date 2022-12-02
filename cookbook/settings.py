@@ -127,7 +127,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
@@ -141,4 +140,9 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'send_emails')
 #EMAIL_PORT = 587
 #EMAIL_USE_TLS = True
 
-#DEFAULT_FROM_EMAIL = 'mnmah@alaska.edu'
+#DEFAULT_FROM_EMAIL = ' mnmah@alaska.edu'
+MEDIA_URL = '/media/'
+
+# Path where media is stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
