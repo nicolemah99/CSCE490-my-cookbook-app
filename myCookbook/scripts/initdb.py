@@ -1,7 +1,7 @@
 import csv
 from myCookbook.models import User,Recipe
 
-FNAME = "scripts/initdb.py"
+FNAME = "myCookbook/seeddata/users.csv"
 def run():
     print(f'Reading file: {FNAME}')
     with open(FNAME) as f:

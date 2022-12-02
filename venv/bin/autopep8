@@ -1,4 +1,6 @@
-#!/Users/NicoleMah/Desktop/final-assignment-CSCE-490/venv/bin/python
+#!/bin/sh
+'''exec' "/Users/NicoleMah/untitled folder/final-assignment-CSCE-490/venv/bin/python3" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys
