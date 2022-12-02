@@ -14,7 +14,7 @@
     </div>
     {% endif %}
     <h1>Become a chef today!</h1>
-    <form novalidate action="{% url 'register' %}" method="POST">
+    <form novalidate action="{% url 'register' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-floating py-2">
             {{ form.username }}

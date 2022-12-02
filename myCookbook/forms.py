@@ -28,7 +28,7 @@ class RecipeForm(forms.ModelForm):
                    'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': "Description"}),
                    'num_servings': forms.NumberInput(attrs={'class': 'form-control'}),
                    'min': forms.NumberInput(attrs={'class': 'form-control'}),
-                   'image': forms.FileInput(attrs={'class': 'form-control-file'})
+                   'image': forms.FileInput(attrs={'class': 'form-control-file', "name":'image'})
                    }
 
 

@@ -21,8 +21,8 @@ class User(AbstractUser):
         default=0, validators=[MinValueValidator(0)], verbose_name="Number of Servings")
     num_recipes_posted = models.IntegerField(
         default=0, validators=[MinValueValidator(0)], verbose_name="Total Time")
-    profile_image = models.ImageField(upload_to='myCookbook/static/myCookbook/profile',
-                                      default='myCookbook/static/myCookbook/profile/default_profile.png', blank=True, verbose_name="Profile Image")
+    profile_image = models.ImageField(upload_to='images/profileImages',
+                                      default='images/profileImages/default_profile.png', blank=True, verbose_name="Profile Image")
     theme = models.CharField(default=THEMES[0], max_length=9, choices=THEMES)
 
     def __str__(self):
@@ -57,16 +57,11 @@ class Recipe(models.Model):
     rating = models.PositiveSmallIntegerField(default=0,choices=RATINGS)
     savers = models.ManyToManyField(
         User, blank=True, related_name="saved_recipes")
-    image = models.ImageField(upload_to='myCookbook/static/myCookbook/recipe',
-                              default='myCookbook/static/myCookbook/images/default_profile.png', blank=True, verbose_name="Recipe Image")
+    image = models.ImageField(upload_to='myCookbook/images/recipeImages',
+                              default='myCookbook/images/recipeImages/defaultImage.jpeg', blank=True, verbose_name="Recipe Image")
     def __str__(self):
         return f"{self.name}"
     
-    def set_json(self, x):
-        self.instructions = json.dumps(x)
-
-    def get_json(self, x):
-        return json.loads(self.instructions)
         
 class Ingredient(models.Model):
     UNITS = (
