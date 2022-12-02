@@ -12,6 +12,7 @@ from django.http import QueryDict
 from django.views.generic.edit import CreateView
 from django.contrib import messages
 from itertools import zip_longest
+import random
 
 def grouper(n, iterable, fillvalue=None):
     "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
@@ -19,7 +20,9 @@ def grouper(n, iterable, fillvalue=None):
     return list(zip_longest(fillvalue=fillvalue, *args))
 
 def index(request):
-    return render(request, "myCookbook/index.html")
+    allRecipes = list(Recipe.objects.all())
+    randomRecipes = random.sample(allRecipes,3)
+    return render(request, "myCookbook/index.html", {'recipes':randomRecipes})
 
 
 class addRecipe(View):
