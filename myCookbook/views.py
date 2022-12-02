@@ -90,4 +90,6 @@ def myCookbook(request):
 
 
 def profile(request):
-    return render(request, "myCookbook/profile.html")
+    currentUser = User.objects.get(username = request.user)
+    recipes = Recipe.objects.filter(author=currentUser)
+    return render(request, "myCookbook/profile.html", {'user':currentUser, 'recipes':recipes})

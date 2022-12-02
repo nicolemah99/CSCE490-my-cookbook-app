@@ -1,10 +1,59 @@
 {% extends "myCookbook/layout.html" %}
 {% load static %}
 {% block title %}
-    <title>My Profile</title>
+<title>My Profile</title>
 {% endblock %}
 
 {% block main %}
+<div class="container">
+    <h1 class="display-1 text-center">{{ user.first_name }} {{ user.last_name }}</h1>
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{user.profile_image}}" class="img-fluid rounded-start roundImage" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-2">About:</div>
+                        <div class="col">{{user.bio}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">Recipes Posted:</div>
+                        <div class="col">{{user.num_recipes_posted}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">Recipes Saved:</div>
+                        <div class="col">{{user.num_recipes_saved}}</div>
+                    </div>
+
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h5 class="display-5 text-center">My Recipes</h5>
+    <div class="row">
+        <div class="col-4">
+          <div id="list-example" class="list-group">
+            {% for r in recipes %}
+            <a class="list-group-item list-group-item-action" href="#list-item-{{forloop.counter}}">{{ r.name }}</a>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-8">
+          <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+            {% for r in recipes %}
+            <h4 id="list-item-{{forloop.counter}}">{{ r.name }}</h4>
+            <p>...</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+
+</div>
 
 
 {% endblock %}
