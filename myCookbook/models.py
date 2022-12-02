@@ -3,7 +3,6 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
-import json
 
 class User(AbstractUser):
     THEMES = (
@@ -37,6 +36,7 @@ class User(AbstractUser):
 
 class Recipe(models.Model):
     RATINGS = (
+        ('0', '0'),
         ('1', '1'),
         ('2', '2'),
         ('3', '3'),
@@ -65,6 +65,7 @@ class Recipe(models.Model):
         
 class Ingredient(models.Model):
     UNITS = (
+        ('NA', 'NA'),
         ('Lbs', 'Pounds'),
         ('Oz', 'Ounces'),
         ('C', 'Cups'),

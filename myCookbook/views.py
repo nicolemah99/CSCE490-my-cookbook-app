@@ -34,14 +34,11 @@ class addRecipe(View):
         form = RecipeForm(request.POST, request.FILES)
         newRecipe = form.save(commit=False)
         newRecipe.author = request.user
-        #author = request.user
         instructions = request.POST.getlist('instructions')
         ingredients = request.POST.getlist('ingredients')
         ingredients = grouper(3,ingredients)
         newRecipe.instructions = instructions
         newRecipe.ingredients = ingredients
-
-        #newRecipe = Recipe(author= author, name=name, instructions=instructions, ingredients=ingredients, description=description, num_servings=num_servings,min=min)
         newRecipe.save()
         messages.success(request, f'Recipe posted!')
         return render(request, 'myCookbook/addRecipe.html', {"form":form})
