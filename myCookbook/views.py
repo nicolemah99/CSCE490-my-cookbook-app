@@ -21,7 +21,7 @@ def grouper(n, iterable, fillvalue=None):
 
 def index(request):
     allRecipes = list(Recipe.objects.all())
-    randomRecipes = random.sample(allRecipes,3)
+    randomRecipes = random.sample(allRecipes,0)
     return render(request, "myCookbook/index.html", {'recipes':randomRecipes})
 
 
