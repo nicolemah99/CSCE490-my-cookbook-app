@@ -92,4 +92,6 @@ def myCookbook(request):
 def profile(request):
     currentUser = User.objects.get(username = request.user)
     recipes = Recipe.objects.filter(author=currentUser)
+    numRecipes = len(recipes)
+    User.objects.filter(username=request.user).update(num_recipes_posted=numRecipes)
     return render(request, "myCookbook/profile.html", {'user':currentUser, 'recipes':recipes})
