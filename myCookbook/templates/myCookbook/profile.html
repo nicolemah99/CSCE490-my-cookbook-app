@@ -6,9 +6,10 @@
 
 {% block main %}
 <div class="background">
-
+<br>
 <div class="container">
-    <h3 class="display-3 text-center font-white">{{ user.first_name }} {{ user.last_name }}</h3>
+    <h5 class="display-5 text-center font-white">{{ user.first_name }} {{ user.last_name }}</h5>
+    <br>
     <div class="card mb-3 p-5">
         <div class="row g-0">
             <div class="col-md-4 pb-2">
@@ -34,7 +35,9 @@
             </div>
         </div>
     </div>
+    <br>
     <hr>
+    <br>
     <h5 class="display-5 text-center font-white">My Recipes</h5>
     <br>
     <div class="row">
@@ -48,30 +51,30 @@
         <div class="col-8">
           <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
             {% for r in recipes %}
-            <div class="recipe-card p-5">
-              <div class="row py-3" id="list-item-{{forloop.counter}}">
+            <div class="recipe-card p-4">
+              <div class="row" id="list-item-{{forloop.counter}}">
                     <div class="col">
                         <div class="row">
-                            <img src="{{ r.image }}" class="img-fluid" alt="...">
+                            <img class="recipe-img-sm" src="{{ r.image }}">
                         </div>
                     </div>
                     <div class="col">
                         <div class="row">
-                            <h5 class="display-5">{{r.name}}</h5>
+                            <strong><h4>{{r.name}}</h4></strong>
                         </div>
                         <div class="row">
                             <p>{{ r.description}}</p>
                         </div>
                         
                     </div>
-                    <div class="col">
-                        <div class="row pb-2">
+                    <div class="col-2">
+                        <div class="row pb-3">
                             <button class="btn btn-dark btn-sm">View Recipe</button>
                         </div>
-                        <div class="row pb-2">
+                        <div class="row pb-3">
                             <button class="btn btn-dark btn-sm">Edit Recipe</button>
                         </div>
-                        <div class="row pb-2">
+                        <div class="row pb-3">
                             <button class="btn btn-dark btn-sm">Delete Recipe</button>
                         </div>
                     </div>
