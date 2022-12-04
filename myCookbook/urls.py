@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("", views.index, name="index"),
     path("addRecipe", views.addRecipe.as_view(), name="addRecipe"),
-    path("allRecipes", views.allRecipes, name="allRecipes"),
+    #path("allRecipes", views.allRecipes, name="allRecipes"),
     path("contactUs", views.contactUs, name="contactUs"),
     path("signUp", views.signUp, name="signUp"),
     path("profile", views.profile, name="profile"),
@@ -22,4 +22,5 @@ urlpatterns = [
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('allRecipes',views.RecipeListView.as_view(), name='allRecipes'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

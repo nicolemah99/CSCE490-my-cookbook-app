@@ -10,6 +10,7 @@ from .models import User, Recipe, Ingredient
 from .forms import UserForm, RecipeForm
 from django.http import QueryDict
 from django.views.generic.edit import CreateView
+from django.views.generic.list import ListView
 from django.contrib import messages
 from itertools import zip_longest
 import random
@@ -46,6 +47,11 @@ class addRecipe(View):
 def allRecipes(request):
     return render(request, "myCookbook/allRecipes.html")
 
+class RecipeListView(ListView):
+    model = Recipe
+    template_name = 'myCookbook/allRecipes.html'
+    context_object_name = 'recipes'
+    paginate_by = 2
 
 def contactUs(request):
     return render(request, "myCookbook/contactUs.html")
