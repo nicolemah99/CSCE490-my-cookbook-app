@@ -1,8 +1,9 @@
 import csv
-from myCookbook.models import User,Recipe
+from myCookbook.models import User,Recipe,Category
 
 FNAME1 = "myCookbook/seeddata/users.csv"
 FNAME2 = "myCookbook/seeddata/recipes.csv"
+FNAME3 = "myCookbook/seeddata/categories.csv"
 
 def run():
     users = []
@@ -34,3 +35,12 @@ def run():
             image = row["image"]
 
             Recipe.objects.get_or_create(author=author, name=name, instructions=instructions, ingredients=ingredients, description=description, num_servings=num_servings, min=min,image=image)
+    
+    print(f'Reading file: {FNAME3}')
+    with open(FNAME3) as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            print(f'Processsing: {row}')
+            name  = row["name"]
+
+            Category.objects.get_or_create(name=name)

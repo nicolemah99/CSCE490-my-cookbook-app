@@ -33,6 +33,14 @@ class User(AbstractUser):
     def get_username(self) -> str:
         return super().get_username()
 
+class Category(models.Model):
+    name = models.CharField(max_length=64, unique=True)
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        return f"{self.name}"
 
 class Recipe(models.Model):
     RATINGS = (
@@ -46,6 +54,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     name = models.TextField(max_length=64)
+    categories = models.ManyToManyField(Category, blank=True)
     instructions = models.TextField(null=True)
     ingredients = models.TextField(null=True)
     description = models.TextField(max_length=500)
@@ -62,21 +71,3 @@ class Recipe(models.Model):
     def __str__(self):
         return f"{self.name}"
     
-        
-class Ingredient(models.Model):
-    UNITS = (
-        ('NA', 'NA'),
-        ('Lbs', 'Pounds'),
-        ('Oz', 'Ounces'),
-        ('C', 'Cups'),
-        ('Tb', 'Tablespoon'),
-        ('Ts', 'Teaspoon')
-    )
-    recipe = models.ForeignKey(Recipe,default=1, on_delete=models.CASCADE)
-    name = models.TextField(max_length=64, null=True)
-    amount = models.FloatField(default=0.0, validators=[
-                               MinValueValidator(0.0)])
-    units = models.CharField(max_length=3, null=True, choices=UNITS)
-
-    def __str__(self):
-        return f"{self.amount} {self.units} {self.name}"

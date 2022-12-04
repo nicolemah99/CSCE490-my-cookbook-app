@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views import View
-from .models import User, Recipe, Ingredient
+from .models import User, Recipe, Category
 from .forms import UserForm, RecipeForm
 from django.http import QueryDict
 from django.views.generic.edit import CreateView
