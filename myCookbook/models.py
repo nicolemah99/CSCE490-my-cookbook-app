@@ -3,7 +3,6 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
-import json
 
 class User(AbstractUser):
     THEMES = (
@@ -18,11 +17,11 @@ class User(AbstractUser):
     )
     bio = models.TextField(max_length=500, blank=True)
     num_recipes_saved = models.IntegerField(
-        default=0, validators=[MinValueValidator(0)], verbose_name="Number of Servings")
+        default=0, validators=[MinValueValidator(0)], verbose_name="Number of Recipes Saved")
     num_recipes_posted = models.IntegerField(
-        default=0, validators=[MinValueValidator(0)], verbose_name="Total Time")
-    profile_image = models.ImageField(upload_to='images/profileImages',
-                                      default='images/profileImages/default_profile.png', blank=True, verbose_name="Profile Image")
+        default=0, validators=[MinValueValidator(0)], verbose_name="Number of Recipes Posted")
+    profile_image = models.ImageField(upload_to='myCookbook/images/recipeImages',
+                                      default='myCookbook/images/recipeImages/default_profile.png', null=True, blank=True, verbose_name="Profile Image")
     theme = models.CharField(default=THEMES[0], max_length=9, choices=THEMES)
 
     def __str__(self):
@@ -37,6 +36,7 @@ class User(AbstractUser):
 
 class Recipe(models.Model):
     RATINGS = (
+        ('0', '0'),
         ('1', '1'),
         ('2', '2'),
         ('3', '3'),
@@ -54,7 +54,7 @@ class Recipe(models.Model):
     num_servings = models.IntegerField(null=True,validators=[MinValueValidator(1)])
     min = models.IntegerField(null=True, validators=[
                               MinValueValidator(1), MaxValueValidator(1000)])
-    rating = models.PositiveSmallIntegerField(default=0,choices=RATINGS)
+    rating = models.IntegerField(null=True, default=0,choices=RATINGS)
     savers = models.ManyToManyField(
         User, blank=True, related_name="saved_recipes")
     image = models.ImageField(upload_to='myCookbook/images/recipeImages',
@@ -65,6 +65,7 @@ class Recipe(models.Model):
         
 class Ingredient(models.Model):
     UNITS = (
+        ('NA', 'NA'),
         ('Lbs', 'Pounds'),
         ('Oz', 'Ounces'),
         ('C', 'Cups'),

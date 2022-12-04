@@ -12,6 +12,7 @@ from django.http import QueryDict
 from django.views.generic.edit import CreateView
 from django.contrib import messages
 from itertools import zip_longest
+import random
 
 def grouper(n, iterable, fillvalue=None):
     "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
@@ -19,7 +20,9 @@ def grouper(n, iterable, fillvalue=None):
     return list(zip_longest(fillvalue=fillvalue, *args))
 
 def index(request):
-    return render(request, "myCookbook/index.html")
+    allRecipes = list(Recipe.objects.all())
+    randomRecipes = random.sample(allRecipes,3)
+    return render(request, "myCookbook/index.html", {'recipes':randomRecipes})
 
 
 class addRecipe(View):
@@ -28,21 +31,17 @@ class addRecipe(View):
         return render(request, "myCookbook/addRecipe.html", {"form": recipeForm})
 
     def post(self, request):
-        form = RecipeForm
-        name = request.POST['name']
-        description = request.POST['description']
-        num_servings = request.POST['num_servings']
-        min = request.POST['min']
-        author = request.user
+        form = RecipeForm(request.POST, request.FILES)
+        newRecipe = form.save(commit=False)
+        newRecipe.author = request.user
         instructions = request.POST.getlist('instructions')
         ingredients = request.POST.getlist('ingredients')
-        #instructions = list_to_string(instructions)
         ingredients = grouper(3,ingredients)
-        
-        newRecipe = Recipe(author= author, name=name, instructions=instructions, ingredients=ingredients, description=description, num_servings=num_servings,min=min)
+        newRecipe.instructions = instructions
+        newRecipe.ingredients = ingredients
         newRecipe.save()
         messages.success(request, f'Recipe posted!')
-        return render(request, 'myCookbook/addRecipe.html', {"form":form, 'ingredients':ingredients})
+        return render(request, 'myCookbook/addRecipe.html', {"form":form})
 
 def allRecipes(request):
     return render(request, "myCookbook/allRecipes.html")
@@ -91,4 +90,8 @@ def myCookbook(request):
 
 
 def profile(request):
-    return render(request, "myCookbook/profile.html")
+    currentUser = User.objects.get(username = request.user)
+    recipes = Recipe.objects.filter(author=currentUser)
+    numRecipes = len(recipes)
+    User.objects.filter(username=request.user).update(num_recipes_posted=numRecipes)
+    return render(request, "myCookbook/profile.html", {'user':currentUser, 'recipes':recipes})

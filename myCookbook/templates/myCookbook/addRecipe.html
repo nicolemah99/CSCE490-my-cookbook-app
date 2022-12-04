@@ -6,10 +6,9 @@
 {% block main %}
 
 <div class="container">
-    {{ ingredients }}
     <br>
     <h1>Add a New Recipe!</h1>
-    <form novalidate action="{% url 'addRecipe' %}" method="POST" enctype="multipart/form-data>
+    <form novalidate action="{% url 'addRecipe' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-floating py-2">
             {{ form.name }}
@@ -36,10 +35,11 @@
             <p>Ingredients</p>
             <div class="input-group">
                 <div class="input-group-text" name="ingredients"></div>
-                <input class="form-control" type="text" name="ingredients" placeholder="Ingredient">
-                <input class="form-control" type="number" name="ingredients" placeholder="Quantity">
-                <select class="form-control custom-select" name="ingredients">
+                <input class="form-control" type="text" name="ingredients" placeholder="Ingredient" required>
+                <input class="form-control" type="number" name="ingredients" placeholder="Quantity" required>
+                <select class="form-control custom-select" name="ingredients" required>
                     <option selected>Choose a Unit</option>
+                    <option value="NA">Not Applicable</option>
                     <option value="C">Cup</option>
                     <option value="OZ">Ounce</option>
                     <option value="LB">Pound</option>
@@ -57,7 +57,7 @@
             <p>Instructions</p>
             <div class="input-group">
                 <div class="input-group-text"></div>
-                <input class="form-control" name="instructions" type="text" placeholder="Add Instruction">
+                <input class="form-control" name="instructions" type="text" placeholder="Add Instruction" required>
             </div>
 
         </div>
