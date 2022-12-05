@@ -1,32 +1,61 @@
 {% extends "myCookbook/layout.html" %}
 {% load static %}
 {% block title %}
-    <title>Explore Recipes</title>
+<title>Explore Recipes</title>
 {% endblock %}
 
 {% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        FILTERS
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container">
+                <div class="h2">All Recipes</div>
+                <div class="row">
+                    {% for r in recipes %}
+                    <div class="col recipeSquare mb-5">
+                        <a href="...">
+                            <div class="card">
+                                <img src="{{ r.image }}" class="card-img-top square" alt="...">
+                                <div class="card-body">
+                                    <p class="card-text">{{r.name}}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
 
-{% for r in recipes %}
-    <div>{{r.name}}</div>
-{% endfor %}
-<div class="row">
-    <div class="col-12">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif%}
 
-            <span class="current">
-                {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-            </span>
+            <div class="row">
+                <div class="col-12">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif%}
 
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif%}
-        </span>
+                        <span class="current">
+                            {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                        </span>
+
+                        {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">next</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                        {% endif%}
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 {% endblock %}

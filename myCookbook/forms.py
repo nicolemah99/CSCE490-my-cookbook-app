@@ -27,7 +27,7 @@ class RecipeForm(forms.ModelForm):
         fields = ('name','categories', 'description', 'num_servings',
                   'min', 'image', 'instructions')
         widgets = {'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Name"}),
-                   'categories': forms.Select(attrs={'class': 'form-control'}),
+                   'categories': forms.CheckboxSelectMultiple(),
                    'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': "Description"}),
                    'num_servings': forms.NumberInput(attrs={'class': 'form-control'}),
                    'min': forms.NumberInput(attrs={'class': 'form-control'}),

@@ -63,7 +63,7 @@ class Recipe(models.Model):
     num_servings = models.IntegerField(null=True,validators=[MinValueValidator(1)])
     min = models.IntegerField(null=True, validators=[
                               MinValueValidator(1), MaxValueValidator(1000)])
-    rating = models.IntegerField(null=True, default=0,choices=RATINGS)
+    rating = models.IntegerField(null=True,blank=True, default=0,choices=RATINGS)
     savers = models.ManyToManyField(
         User, blank=True, related_name="saved_recipes")
     image = models.ImageField(upload_to='myCookbook/images/recipeImages',

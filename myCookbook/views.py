@@ -41,17 +41,27 @@ class addRecipe(View):
         newRecipe.instructions = instructions
         newRecipe.ingredients = ingredients
         newRecipe.save()
+        
         messages.success(request, f'Recipe posted!')
-        return render(request, 'myCookbook/addRecipe.html', {"form":form})
+        return render(request, 'myCookbook/index.html', {"form":form})
 
 def allRecipes(request):
     return render(request, "myCookbook/allRecipes.html")
+
+class CategoryView(ListView):
+    model = Recipe
+    template_name = 'myCookbook/allRecipes.html'
+    context_object_name = 'recipes'
+    paginate_by = 9
+
+    def get_queryset(self, *args, **kwargs):
+        return Recipe.objects.filter(categories__name__icontains = self.kwargs.get('category'))
 
 class RecipeListView(ListView):
     model = Recipe
     template_name = 'myCookbook/allRecipes.html'
     context_object_name = 'recipes'
-    paginate_by = 2
+    paginate_by = 9
 
 def contactUs(request):
     return render(request, "myCookbook/contactUs.html")
