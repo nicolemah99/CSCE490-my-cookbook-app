@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
@@ -8,7 +8,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("", views.index, name="index"),
     path("addRecipe", views.addRecipe.as_view(), name="addRecipe"),
-    #path("allRecipes", views.allRecipes, name="allRecipes"),
     path("contactUs", views.contactUs, name="contactUs"),
     path("signUp", views.signUp, name="signUp"),
     path("profile", views.profile, name="profile"),
@@ -24,4 +23,7 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('allRecipes',views.RecipeListView.as_view(), name='allRecipes'),
     path('c/<str:category>', views.CategoryView.as_view(), name='category'),
+    #path('recipe/<str:name>',views.RecipeDetailView.as_view(),name='recipe'),
+    path(r'deleteRecipe/(?P<pk>[0-9]+)/$', views.deleteRecipe.as_view(), name='deleteRecipe'),
+    path(r'editRecipe/(?P<pk>[0-9]+)/$', views.editRecipe.as_view(), name='editRecipe'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

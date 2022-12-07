@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block main %}
-
+{% for c in cat %}
+{{c.name}}
+{% endfor %}
 {% if message %}
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
   <strong>Congratulations!</strong> {{ message }}
@@ -24,19 +26,18 @@
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active item_carousel">
-      <img class="carousel-image" src="myCookbook/images/recipeImages/food.jpeg"
-        alt="">
+      <img class="carousel-image" src="myCookbook/images/recipeImages/food.jpeg" alt="">
       <div class="container">
         <div class="carousel-caption text-start">
           <h1>Explore All Recipes</h1>
           <p>Need some inspiration for you meals? Check out other people's favorite dishes!</p>
-          <p><a class="btn btn-lg btn-primary" href="">Go to Recipes</a></p>
+          <p><a class="btn btn-lg btn-primary" href="{% url 'allRecipes' %}">Go to Recipes</a></p>
         </div>
       </div>
     </div>
     {% for r in recipes %}
     <div class="carousel-item item_carousel">
-      <img class="carousel-image" src="{{r.image}}" alt="" >
+      <img class="carousel-image" src="{{r.image}}" alt="">
       <div class="container">
         <div class="carousel-caption text-start">
           <h1>{{r.name}}</h1>
@@ -98,7 +99,8 @@
     <div class="col">
       <div class="row">
         <h5 class="display-5">Get Inspired!</h5>
-        <p>Are you getting tired of always eating the same thing? Try something new by checking out favorite recipes of others!</p>
+        <p>Are you getting tired of always eating the same thing? Try something new by checking out favorite recipes of
+          others!</p>
       </div>
     </div>
     <div class="col-1"></div>

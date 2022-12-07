@@ -53,8 +53,8 @@ class Recipe(models.Model):
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
-    name = models.TextField(max_length=64)
-    categories = models.ManyToManyField(Category, blank=True)
+    name = models.CharField(max_length=64)
+    categories = models.ManyToManyField(Category, blank=True, related_name="recipes")
     instructions = models.TextField(null=True)
     ingredients = models.TextField(null=True)
     description = models.TextField(max_length=500)
@@ -63,7 +63,7 @@ class Recipe(models.Model):
     num_servings = models.IntegerField(null=True,validators=[MinValueValidator(1)])
     min = models.IntegerField(null=True, validators=[
                               MinValueValidator(1), MaxValueValidator(1000)])
-    rating = models.IntegerField(null=True,blank=True, default=0,choices=RATINGS)
+    rating = models.IntegerField(null=True,blank=True,choices=RATINGS)
     savers = models.ManyToManyField(
         User, blank=True, related_name="saved_recipes")
     image = models.ImageField(upload_to='myCookbook/images/recipeImages',

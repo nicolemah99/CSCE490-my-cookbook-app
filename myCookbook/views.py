@@ -4,13 +4,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from .models import User, Recipe, Category
 from .forms import UserForm, RecipeForm
-from django.http import QueryDict
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView,DeleteView,UpdateView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.contrib import messages
 from itertools import zip_longest
 import random
@@ -33,21 +33,23 @@ class addRecipe(View):
 
     def post(self, request):
         form = RecipeForm(request.POST, request.FILES)
-        newRecipe = form.save(commit=False)
-        newRecipe.author = request.user
-        instructions = request.POST.getlist('instructions')
-        ingredients = request.POST.getlist('ingredients')
-        ingredients = grouper(3,ingredients)
-        newRecipe.instructions = instructions
-        newRecipe.ingredients = ingredients
-        newRecipe.save()
+        if form.is_valid():
+            newRecipe = form.save(commit=False)
+            newRecipe.author = request.user
+            instructions = request.POST.getlist('instructions')
+            ingredients = request.POST.getlist('ingredients')
+            ingredients = grouper(3,ingredients)
+            newRecipe.instructions = instructions
+            newRecipe.ingredients = ingredients
+            newRecipe.save()
+            form.save_m2m()
         
         messages.success(request, f'Recipe posted!')
         return render(request, 'myCookbook/index.html', {"form":form})
 
-def allRecipes(request):
-    return render(request, "myCookbook/allRecipes.html")
-
+class FilteredListView(ListView):
+    filterset_class = None
+    
 class CategoryView(ListView):
     model = Recipe
     template_name = 'myCookbook/allRecipes.html'
@@ -62,6 +64,23 @@ class RecipeListView(ListView):
     template_name = 'myCookbook/allRecipes.html'
     context_object_name = 'recipes'
     paginate_by = 9
+    
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            object_list = self.model.objects.filter(name__icontains=query)
+        else:
+            object_list = self.model.objects.all()
+        return object_list
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all().order_by('name')
+        return context
+
+class RecipeDetailView(DetailView):
+    model = Recipe
+    template_name = 'myCookbook/allRecipes.html'
 
 def contactUs(request):
     return render(request, "myCookbook/contactUs.html")
@@ -111,3 +130,14 @@ def profile(request):
     numRecipes = len(recipes)
     User.objects.filter(username=request.user).update(num_recipes_posted=numRecipes)
     return render(request, "myCookbook/profile.html", {'user':currentUser, 'recipes':recipes})
+
+class deleteRecipe(DeleteView):
+    model = Recipe
+    success_url = reverse_lazy('profile')
+    template_name = 'myCookbook/profile.html'
+
+class editRecipe(UpdateView):
+    model = Recipe
+    fields = ["name",'description','categories','num_servings','min','image']
+    success_url = 'myCookbook/profile.html'
+

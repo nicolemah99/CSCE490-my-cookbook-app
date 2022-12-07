@@ -11,14 +11,31 @@
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        FILTERS
+                        {% for c in categories %}
+                        <div class="row">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked{{c.id}}">
+                                <label class="form-check-label" for="flexCheckChecked{{c.id}}">{{c.name}}</label>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
         <div class="col">
             <div class="container">
-                <div class="h2">All Recipes</div>
+                <div class="row">
+                    <div class="col">
+                        <div class="h2">All Recipes</div>
+                    </div>
+                    <div class="col">
+                        <form method='GET'>
+                            <input type='text' name='q' value='{{ request.GET.q }}'>
+                            <input class="button" type='submit' value="Search">
+                          </form>
+                    </div>
+                </div>
                 <div class="row">
                     {% for r in recipes %}
                     <div class="col recipeSquare mb-5">
@@ -40,7 +57,9 @@
                 <div class="col-12">
                     <span class="step-links">
                         {% if page_obj.has_previous %}
+                        {% if page_obj.num_pages > 2 %}
                         <a href="?page=1">&laquo; first</a>
+                        {% endif %}
                         <a href="?page={{ page_obj.previous_page_number }}">previous</a>
                         {% endif%}
 
@@ -50,8 +69,10 @@
 
                         {% if page_obj.has_next %}
                         <a href="?page={{ page_obj.next_page_number }}">next</a>
+                        {% if page_obj.num_pages > 2 %}
                         <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                        {% endif%}
+                        {% endif %}
+                        {% endif %}
                     </span>
                 </div>
             </div>
