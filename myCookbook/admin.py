@@ -1,6 +1,9 @@
 from django.contrib import admin
-from .models import User, Ingredient, Recipe
+from .models import User, Category, Recipe
 
 admin.site.register(User)
-admin.site.register(Ingredient)
+admin.site.register(Category)
 admin.site.register(Recipe)
+
+class AuthorAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug':('name')}

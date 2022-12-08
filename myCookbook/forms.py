@@ -1,4 +1,4 @@
-from .models import User, Recipe, Ingredient
+from .models import User, Recipe, Category
 from django import forms
 from django.contrib.auth.forms import PasswordResetForm
 
@@ -24,21 +24,15 @@ class RecipeForm(forms.ModelForm):
 
     class Meta:
         model = Recipe
-        fields = ('name', 'description', 'num_servings',
+        fields = ('name','categories', 'description', 'num_servings',
                   'min', 'image', 'instructions')
         widgets = {'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Name"}),
+                   'categories': forms.CheckboxSelectMultiple(),
                    'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': "Description"}),
                    'num_servings': forms.NumberInput(attrs={'class': 'form-control'}),
                    'min': forms.NumberInput(attrs={'class': 'form-control'}),
                    'image': forms.FileInput(attrs={'class': 'form-control-file', "name": 'image'})
                    }
-
-
-class IngredientsForm(forms.ModelForm):
-
-    class Meta:
-        model = Ingredient
-        fields = ('name', 'amount')
 
 
 class MyPasswordResetForm(PasswordResetForm):

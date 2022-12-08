@@ -3,6 +3,8 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils.text import slugify
+from autoslug import AutoSlugField
 
 class User(AbstractUser):
     THEMES = (
@@ -33,6 +35,14 @@ class User(AbstractUser):
     def get_username(self) -> str:
         return super().get_username()
 
+class Category(models.Model):
+    name = models.CharField(max_length=64, unique=True)
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        return f"{self.name}"
 
 class Recipe(models.Model):
     RATINGS = (
@@ -45,7 +55,9 @@ class Recipe(models.Model):
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
-    name = models.TextField(max_length=64)
+    name = models.CharField(max_length=64)
+    slug = models.SlugField(null=True)
+    categories = models.ManyToManyField(Category, blank=True, related_name="recipes")
     instructions = models.TextField(null=True)
     ingredients = models.TextField(null=True)
     description = models.TextField(max_length=500)
@@ -54,29 +66,12 @@ class Recipe(models.Model):
     num_servings = models.IntegerField(null=True,validators=[MinValueValidator(1)])
     min = models.IntegerField(null=True, validators=[
                               MinValueValidator(1), MaxValueValidator(1000)])
-    rating = models.IntegerField(null=True, default=0,choices=RATINGS)
+    rating = models.IntegerField(null=True,blank=True,choices=RATINGS)
     savers = models.ManyToManyField(
         User, blank=True, related_name="saved_recipes")
     image = models.ImageField(upload_to='myCookbook/images/recipeImages',
                               default='myCookbook/images/recipeImages/defaultImage.jpeg', blank=True, verbose_name="Recipe Image")
     def __str__(self):
         return f"{self.name}"
-    
-        
-class Ingredient(models.Model):
-    UNITS = (
-        ('NA', 'NA'),
-        ('Lbs', 'Pounds'),
-        ('Oz', 'Ounces'),
-        ('C', 'Cups'),
-        ('Tb', 'Tablespoon'),
-        ('Ts', 'Teaspoon')
-    )
-    recipe = models.ForeignKey(Recipe,default=1, on_delete=models.CASCADE)
-    name = models.TextField(max_length=64, null=True)
-    amount = models.FloatField(default=0.0, validators=[
-                               MinValueValidator(0.0)])
-    units = models.CharField(max_length=3, null=True, choices=UNITS)
 
-    def __str__(self):
-        return f"{self.amount} {self.units} {self.name}"
+    

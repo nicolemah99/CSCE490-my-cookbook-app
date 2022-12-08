@@ -72,10 +72,18 @@
                             <button class="btn btn-dark btn-sm">View Recipe</button>
                         </div>
                         <div class="row pb-3">
-                            <button class="btn btn-dark btn-sm">Edit Recipe</button>
+                            <form action="{% url 'editRecipe' r.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-dark btn-sm">Edit Recipe</button>
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </form>
                         </div>
                         <div class="row pb-3">
-                            <button class="btn btn-dark btn-sm">Delete Recipe</button>
+                            <form action="{% url 'deleteRecipe' r.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-dark btn-sm">Delete Recipe</button>
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </form>
                         </div>
                     </div>
               </div>

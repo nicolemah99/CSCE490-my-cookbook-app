@@ -1,0 +1,15 @@
+{% extends "myCookbook/layout.html" %}
+{% load static %}
+
+{% block title %}
+<title>Edit Recipe</title>
+{% endblock %}
+
+{% block main %}
+<form novalidate action="{% url 'addRecipe' %}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{form.as_p}}
+<input type="submit" value="Save" class="btn btn-primary">
+</form>
+
+{% endblock %}

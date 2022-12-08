@@ -78,3 +78,9 @@ function addIngredientElement() {
 
     element.append(IG);
 }
+
+function clearForm(){
+    var form = document.getElementById('recipeSubmit');
+    form.submit();
+    form.reset();
+}
