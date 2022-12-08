@@ -27,7 +27,7 @@ urlpatterns = [
     path(r'editRecipe/(?P<pk>[0-9]+)/$', views.editRecipe.as_view(), name='editRecipe'),
     path('recipes/<slug:slug>', views.RecipeDetailView.as_view(), name='recipeDetail'),
 
-
+    path("api/counters", views.api_counters, name="api-counters"),
     path("api/toggle", views.api_toggle, name="api-toggle"),
     path("api/saved", views.api_saved, name="api-saved"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

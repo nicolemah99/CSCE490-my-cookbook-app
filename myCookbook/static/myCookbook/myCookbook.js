@@ -139,3 +139,15 @@ function update_innerHTML(element_id, value) {
         document.querySelector(element_id).innerHTML = value;
     }
 }
+
+function update_counters() {
+    fetch("/api/counters")
+    .then(response => response.json())
+    .then(data => {
+        update_innerHTML('#mr', data['my_recipes'])
+        update_innerHTML('#ms', data['my_saves'])
+    })
+    .catch(error => {
+        console.log('**** api/counters error **', error);
+    });
+}

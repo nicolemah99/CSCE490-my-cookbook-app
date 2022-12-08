@@ -183,3 +183,12 @@ def api_saved(request):
     }
     print(f'api_savers called. returning {status}')
     return JsonResponse(status)
+
+def api_counters(request):
+    user = request.user
+    counts = {}
+    if user.is_authenticated:
+        counts['my_recipes'] = Recipe.objects.filter(author=user).count()
+        counts['my_saves'] = user.saved_recipes.all().count()
+    print(f'api_counters called. returning {counts}')
+    return JsonResponse(counts)
