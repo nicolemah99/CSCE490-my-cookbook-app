@@ -1,14 +1,39 @@
 {% extends "myCookbook/layout.html" %}
 {% load static %}
 {% block title %}
-    <title>Recipe</title>
+<title>Recipe</title>
 {% endblock %}
 
 {% block main %}
-
-    <div class="container">
-        <div class="row">
+<div class="container">
+    <div class="row">
+        <div class="col">
             <h1 class="display-5">{{ recipe.name }}</h1>
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <h3>Ingredients</h3>
+        </div>
+    </div>
+    <div class="row">
+        <ul>
+            {% for i in newIngredients %}
+            <li>
+            {% for x in i %}
+            {{x}}
+            {% endfor %}
+            {% endfor %}
+            </li>
+        </ul>
+
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3>Instructions</h3>
+        </div>
+    </div>
+    <div class="row">
+    </div>
+</div>
 {% endblock %}
