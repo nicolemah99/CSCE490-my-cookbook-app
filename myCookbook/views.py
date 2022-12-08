@@ -39,6 +39,7 @@ class addRecipe(LoginRequiredMixin,View):
             newRecipe = form.save(commit=False)
             newRecipe.author = request.user
             instructions = request.POST.getlist('instructions')
+            instructions = ':'.join(str(x) for x in instructions).replace(',',';')
             ingredients = request.POST.getlist('ingredients')
             ingredients = grouper(3,ingredients)
             newRecipe.instructions = instructions
