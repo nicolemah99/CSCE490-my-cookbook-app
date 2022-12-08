@@ -39,7 +39,7 @@
                 <div class="row">
                     {% for r in recipes %}
                     <div class="col recipeSquare mb-5">
-                        <a href="{% url 'recipeDetail' r.id %}">
+                        <a href="{% url 'recipeDetail' r.slug %}">
                             <div class="card">
 
                                 <div class="card-body">
