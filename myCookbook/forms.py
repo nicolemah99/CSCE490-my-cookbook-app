@@ -1,4 +1,4 @@
-from .models import User, Recipe, Category
+from .models import User, Recipe, Category, Review
 from django import forms
 from django.contrib.auth.forms import PasswordResetForm
 
@@ -39,3 +39,8 @@ class MyPasswordResetForm(PasswordResetForm):
     def is_valid(self):
         email = self.data["email"]
         return super().is_valid()
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ('subject', 'review','rating',)

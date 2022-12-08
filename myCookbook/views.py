@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from .models import User, Recipe, Category
-from .forms import UserForm, RecipeForm
+from .models import Review, User, Recipe, Category
+from .forms import UserForm, RecipeForm, ReviewForm
 from django.views.generic.edit import CreateView,DeleteView,UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -192,3 +192,17 @@ def api_counters(request):
         counts['my_saves'] = user.saved_recipes.all().count()
     print(f'api_counters called. returning {counts}')
     return JsonResponse(counts)
+
+class CreateReview(CreateView):
+    model = Review
+    form_class = ReviewForm
+
+    def form_valid(self, form, *args, **kwargs):
+        form.instance.recipe = Recipe.objects.get(id=self.kwargs['recipeID'])
+        form.instance.reviewer = self.request.user
+    
+        form.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('recipeDetail', kwargs={'slug': self.object.recipe.slug})

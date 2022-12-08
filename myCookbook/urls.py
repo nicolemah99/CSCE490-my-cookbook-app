@@ -30,4 +30,6 @@ urlpatterns = [
     path("api/counters", views.api_counters, name="api-counters"),
     path("api/toggle", views.api_toggle, name="api-toggle"),
     path("api/saved", views.api_saved, name="api-saved"),
+
+    path('createReview/<str:recipeID>', views.CreateReview.as_view(), name='createReview'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
