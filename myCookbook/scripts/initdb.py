@@ -1,5 +1,7 @@
 import csv
 from myCookbook.models import User,Recipe,Category
+from django.utils.text import slugify
+from autoslug import AutoSlugField
 
 FNAME1 = "myCookbook/seeddata/users.csv"
 FNAME2 = "myCookbook/seeddata/recipes.csv"
@@ -33,8 +35,9 @@ def run():
             num_servings = row["num_servings"]
             min = row["min"]
             image = row["image"]
+            slug = slugify(name)
 
-            Recipe.objects.get_or_create(author=author, name=name, instructions=instructions, ingredients=ingredients, description=description, num_servings=num_servings, min=min,image=image)
+            Recipe.objects.get_or_create(author=author,name=name, slug=slug, instructions=instructions, ingredients=ingredients, description=description, num_servings=num_servings, min=min,image=image)
     
     print(f'Reading file: {FNAME3}')
     with open(FNAME3) as f:

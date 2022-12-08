@@ -39,9 +39,9 @@
                 <div class="row">
                     {% for r in recipes %}
                     <div class="col recipeSquare mb-5">
-                        <a href="...">
+                        <a href="{% url 'recipeDetail' r.id %}">
                             <div class="card">
-                                <img src="{{ r.image }}" class="card-img-top square" alt="...">
+
                                 <div class="card-body">
                                     <p class="card-text">{{r.name}}</p>
                                 </div>

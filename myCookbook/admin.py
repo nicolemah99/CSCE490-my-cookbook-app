@@ -4,3 +4,6 @@ from .models import User, Category, Recipe
 admin.site.register(User)
 admin.site.register(Category)
 admin.site.register(Recipe)
+
+class AuthorAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug':('name')}

@@ -3,6 +3,8 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils.text import slugify
+from autoslug import AutoSlugField
 
 class User(AbstractUser):
     THEMES = (
@@ -54,6 +56,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
+    slug = models.SlugField(null=True)
     categories = models.ManyToManyField(Category, blank=True, related_name="recipes")
     instructions = models.TextField(null=True)
     ingredients = models.TextField(null=True)
@@ -70,4 +73,5 @@ class Recipe(models.Model):
                               default='myCookbook/images/recipeImages/defaultImage.jpeg', blank=True, verbose_name="Recipe Image")
     def __str__(self):
         return f"{self.name}"
+
     

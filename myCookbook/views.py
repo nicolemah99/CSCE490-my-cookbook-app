@@ -80,8 +80,14 @@ class RecipeListView(ListView):
 
 class RecipeDetailView(DetailView):
     model = Recipe
-    template_name = 'myCookbook/allRecipes.html'
+    template_name = 'myCookbook/recipeDetail.html'
+    context_object_name = 'recipe'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context
+        
 def contactUs(request):
     return render(request, "myCookbook/contactUs.html")
 
