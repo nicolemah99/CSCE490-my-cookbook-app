@@ -130,8 +130,10 @@ def register(request):
 
 
 def myCookbook(request):
+    saved = request.user.saved_recipes.all()
+    myRecipes = Recipe.objects.filter(author=request.user)
     return render(request,'myCookbook/myCookbook.html',{
-        'recipes':request.user.saved_recipes.all()
+        'savedRecipes':saved,'myRecipes': myRecipes
     })
 
 def profile(request):

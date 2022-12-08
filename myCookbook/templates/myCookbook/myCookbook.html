@@ -6,8 +6,16 @@
 
 {% block main %}
 <h1>My Cookbook</h1>
-{% for r in recipes %}
-    <h1>{{r.name}}</h1>
+<h2>Save Recipes</h2>
+{% for r in savedRecipes %}
+    <p>{{r.name}}</p>
     <img class="toggle_saved" data-recipe_id="{{ r.id }}" src="{% static 'myCookbook/filled-star.png' %}">
+    {% empty %}
+    <p>No recipes saved to your cookbook</p>
+    <a href="{% url 'allRecipes' %}">Explore Recipes to Add</a>
+{% endfor %}
+<h3>My Recipes</h3>
+{% for r in myRecipes %}
+    <p>{{r.name}}</p>
 {% endfor %}
 {% endblock %}
