@@ -23,8 +23,8 @@
             {% for x in i %}
             {{x}}
             {% endfor %}
-            {% endfor %}
             </li>
+            {% endfor %}
         </ul>
 
     </div>
@@ -34,6 +34,13 @@
         </div>
     </div>
     <div class="row">
+        <ul>
+            {% for i in newInstructions %}
+            <li>
+                {{i}}
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 {% endblock %}

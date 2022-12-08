@@ -85,10 +85,12 @@ class RecipeDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         newIngredients = []
+        newInstructions = []
         context = super(RecipeDetailView,self).get_context_data(**kwargs)
         newIngredients = self.object.ingredients.split(":")
         newIngredients = grouper(3,newIngredients)
         context['newIngredients'] = newIngredients
+        context['newInstructions'] = self.object.instructions.replace(';',',').split(':')
         return context
         
 def contactUs(request):
