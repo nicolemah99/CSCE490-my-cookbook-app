@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block main %}
+{% if user.is_authenticated %}
+<img class="toggle_saved" data-recipe_id="{{ recipe.id }}" src="{% static 'myCookbook/hollow-star.png' %}">
+{% endif %}
 <div class="container">
     <div class="row">
         <div class="col">
@@ -20,9 +23,9 @@
         <ul>
             {% for i in newIngredients %}
             <li>
-            {% for x in i %}
-            {{x}}
-            {% endfor %}
+                {% for x in i %}
+                {{x}}
+                {% endfor %}
             </li>
             {% endfor %}
         </ul>

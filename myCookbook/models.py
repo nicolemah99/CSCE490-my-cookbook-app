@@ -73,8 +73,18 @@ class Recipe(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    def toggle_saver(self, user):
+        user_saved = self.savers.filter(id=user.id).exists()
+        if user_saved:
+            self.savers.remove(user)
+        else:
+            self.savers.add(user)
+
+    def saver_count(self):
+        return len(self.savers.all())
+
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.name + self.author.first_name)
         super(Recipe,self).save(*args, **kwargs)
 
     

@@ -34,7 +34,7 @@ def run():
             num_servings = row["num_servings"]
             min = row["min"]
             image = row["image"]
-            slug = slugify(name)
+            slug = slugify(name+author.first_name)
 
             Recipe.objects.get_or_create(author=author,name=name, slug=slug, instructions=instructions, ingredients=ingredients, description=description, num_servings=num_servings, min=min,image=image)
     
