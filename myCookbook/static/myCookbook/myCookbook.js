@@ -1,12 +1,49 @@
+if (document.querySelector('form') != undefined) {
 
-const form = document.querySelector("form")
+    const form = document.querySelector("form")
 
-form.addEventListener('submit', e => {
-    if (!form.checkValidity()) {
-        e.preventDefault()
+    form.addEventListener('submit', e => {
+        if (!form.checkValidity()) {
+            e.preventDefault()
+        }
+        form.classList.add('was-validated')
+    })
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    if (document.querySelector('.toggle_saved') != undefined) {
+
+        document.querySelectorAll('.toggle_saved').forEach(button => {
+            console.log(button)
+            const recipe_id = parseInt(button.dataset.recipe_id);
+
+            fetch(`/api/saved?recipe_id=${recipe_id}`)
+                .then(response => response.json())
+                .then(data => {
+                    update_button_display(button, data.in_cookbook);
+                })
+                .catch(error => {
+                    console.log("*** api/saved error **", response.json());
+                })
+
+            button.onclick = function () {
+
+                const recipe_id = this.dataset.recipe_id;
+                console.log(`Toggle saved for recipe id=${recipe_id}`);
+                fetch(`/api/toggle?recipe_id=${recipe_id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        update_button_display(this, data.in_cookbook);
+                    })
+                    .catch(error => {
+                        console.log("*** api/toggle error **", error);
+                    })
+            }
+        })
     }
-    form.classList.add('was-validated')
-})
+
+});
+
 function addInstructionElement() {
     const element = document.getElementById("instructionList");
     var IG = document.createElement('div');
@@ -72,15 +109,45 @@ function addIngredientElement() {
     I3.appendChild(O5);
     I3.appendChild(O6);
     IG.append(IGT);
-    IG.append(I1);
     IG.append(I2);
-    IG.append(I3)
+    IG.append(I3);
+    IG.append(I1);
 
     element.append(IG);
 }
 
-function clearForm(){
+function clearForm() {
     var form = document.getElementById('recipeSubmit');
     form.submit();
     form.reset();
+}
+
+function update_button_display(button, saved) {
+    console.log(`update_button-display: ${button} ${saved}`);
+    let filename = button.src;
+    if (saved) {
+        filename = filename.replace("hollow", "filled");
+    } else {
+        filename = filename.replace("filled", "hollow");
+    }
+    button.src = filename;
+}
+
+
+function update_innerHTML(element_id, value) {
+    if (document.querySelector(element_id) != undefined) {
+        document.querySelector(element_id).innerHTML = value;
+    }
+}
+
+function update_counters() {
+    fetch("/api/counters")
+    .then(response => response.json())
+    .then(data => {
+        update_innerHTML('#mr', data['my_recipes'])
+        update_innerHTML('#ms', data['my_saves'])
+    })
+    .catch(error => {
+        console.log('**** api/counters error **', error);
+    });
 }

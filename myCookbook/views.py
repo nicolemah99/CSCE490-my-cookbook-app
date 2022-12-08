@@ -1,5 +1,5 @@
 from django.db import IntegrityError
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -24,7 +24,6 @@ def index(request):
     allRecipes = list(Recipe.objects.all())
     randomRecipes = random.sample(allRecipes,3)
     return render(request, "myCookbook/index.html", {'recipes':randomRecipes})
-
 
 class addRecipe(View):
     def get(self, request):
@@ -85,7 +84,6 @@ class RecipeDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         newIngredients = []
-        newInstructions = []
         context = super(RecipeDetailView,self).get_context_data(**kwargs)
         newIngredients = self.object.ingredients.split(":")
         newIngredients = grouper(3,newIngredients)
@@ -132,8 +130,11 @@ def register(request):
 
 
 def myCookbook(request):
-    return render(request, "myCookbook/myCookbook.html")
-
+    saved = request.user.saved_recipes.all()
+    myRecipes = Recipe.objects.filter(author=request.user)
+    return render(request,'myCookbook/myCookbook.html',{
+        'savedRecipes':saved,'myRecipes': myRecipes
+    })
 
 def profile(request):
     currentUser = User.objects.get(username = request.user)
@@ -152,3 +153,42 @@ class editRecipe(UpdateView):
     fields = ["name",'description','categories','num_servings','min','image']
     success_url = 'myCookbook/profile.html'
 
+def api_toggle(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({})
+    recipe_id = request.GET['recipe_id']
+    recipe = Recipe.objects.get(id=recipe_id)
+    in_cookbook = recipe.savers.filter(id=request.user.id).exists()
+    if in_cookbook:
+        recipe.savers.remove(request.user)
+    else:
+        recipe.savers.add(request.user)
+    in_cookbook = not in_cookbook
+    status = {
+        'user': request.user.username,
+        'in_cookbook': in_cookbook,
+        'my_saves': request.user.saved_recipes.all().count()
+    }
+    print(f'api_toggle called. returning {status}')
+    return JsonResponse(status)
+
+def api_saved(request):
+    # should check of user is_authenticated and recipe_id is valid
+    if not request.user.is_authenticated:
+        return JsonResponse({})
+    recipe_id = request.GET['recipe_id']
+    recipe = Recipe.objects.get(id=recipe_id)
+    status = {
+        'in_cookbook': recipe.savers.filter(id=request.user.id).exists()
+    }
+    print(f'api_savers called. returning {status}')
+    return JsonResponse(status)
+
+def api_counters(request):
+    user = request.user
+    counts = {}
+    if user.is_authenticated:
+        counts['my_recipes'] = Recipe.objects.filter(author=user).count()
+        counts['my_saves'] = user.saved_recipes.all().count()
+    print(f'api_counters called. returning {counts}')
+    return JsonResponse(counts)

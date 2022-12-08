@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
@@ -25,5 +25,9 @@ urlpatterns = [
     path('c/<str:category>', views.CategoryView.as_view(), name='category'),
     path(r'deleteRecipe/(?P<pk>[0-9]+)/$', views.deleteRecipe.as_view(), name='deleteRecipe'),
     path(r'editRecipe/(?P<pk>[0-9]+)/$', views.editRecipe.as_view(), name='editRecipe'),
-    path('recipes/<slug:slug>', views.RecipeDetailView.as_view(), name='recipeDetail')
+    path('recipes/<slug:slug>', views.RecipeDetailView.as_view(), name='recipeDetail'),
+
+    path("api/counters", views.api_counters, name="api-counters"),
+    path("api/toggle", views.api_toggle, name="api-toggle"),
+    path("api/saved", views.api_saved, name="api-saved"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
