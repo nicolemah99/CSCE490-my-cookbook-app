@@ -7,6 +7,10 @@ main{
     padding: 10px;
     border-radius: 10px;
 }
+.recipeButtons{
+    width: 75px;
+
+}
 .recipeSquare{
     width: 300px;
     height: 300px;
