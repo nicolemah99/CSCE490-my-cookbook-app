@@ -26,6 +26,7 @@ def run():
         reader = csv.DictReader(f)
         for row in reader:
             print(f'Processsing: {row}')
+            print(row['author'])
             author = User.objects.get(username=row['author'])
             name  = row["name"]
             instructions  = row["instructions"]

@@ -25,7 +25,10 @@ def index(request):
     randomRecipes = random.sample(allRecipes,3)
     return render(request, "myCookbook/index.html", {'recipes':randomRecipes})
 
-class addRecipe(View):
+
+class addRecipe(LoginRequiredMixin,View):
+    login_url = 'login'
+
     def get(self, request):
         recipeForm = RecipeForm
         return render(request, "myCookbook/addRecipe.html", {"form": recipeForm})
@@ -193,9 +196,10 @@ def api_counters(request):
     print(f'api_counters called. returning {counts}')
     return JsonResponse(counts)
 
-class CreateReview(CreateView):
+class CreateReview(LoginRequiredMixin,CreateView):
     model = Review
     form_class = ReviewForm
+    login_url = 'login'
 
     def form_valid(self, form, *args, **kwargs):
         form.instance.recipe = Recipe.objects.get(id=self.kwargs['recipeID'])

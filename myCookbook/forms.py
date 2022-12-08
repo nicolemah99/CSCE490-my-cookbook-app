@@ -8,14 +8,13 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password',
-                  'bio', 'theme', 'profile_image')
+                  'bio', 'profile_image')
         widgets = {'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Username", "required": True}),
                    'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "First Name", "required": True}),
                    'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Last Name", "required": True}),
                    'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': "Password", "required": True}),
                    'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Email", "required": True}),
                    'bio': forms.Textarea(attrs={'class': 'form-control', 'placeholder': "Share a bit about yourself!"}),
-                   'theme': forms.Select(attrs={'class': 'form-control', "required": True}),
                    'profile_image': forms.FileInput(attrs={'class': 'form-control-file'}),
                    }
 
@@ -44,3 +43,7 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ('subject', 'review','rating',)
+        widgets = {'subject': forms.TextInput(attrs={'class': 'form-control','placeholder':'Subject'}),
+                    'review': forms.Textarea(attrs={'class':'form-control','placeholder':'Share your experience'}),
+                    'rating': forms.NumberInput(attrs={'class': 'form-control'})
+        }

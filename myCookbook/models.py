@@ -6,16 +6,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
 
 class User(AbstractUser):
-    THEMES = (
-        ('light', 'White'),
-        ('dark', 'Black'),
-        ('secondary', 'Grey'),
-        ('primary', 'Blue'),
-        ('success', 'Green'),
-        ('warning', 'Yellow'),
-        ('danger', 'Red'),
-        ('info', 'Teal'),
-    )
     bio = models.TextField(max_length=500, blank=True)
     num_recipes_saved = models.IntegerField(
         default=0, validators=[MinValueValidator(0)], verbose_name="Number of Recipes Saved")
@@ -23,7 +13,6 @@ class User(AbstractUser):
         default=0, validators=[MinValueValidator(0)], verbose_name="Number of Recipes Posted")
     profile_image = models.ImageField(upload_to='myCookbook/images/recipeImages',
                                       default='myCookbook/images/recipeImages/default_profile.png', null=True, blank=True, verbose_name="Profile Image")
-    theme = models.CharField(default=THEMES[0], max_length=9, choices=THEMES)
 
     def __str__(self):
         return f"{self.username}"
@@ -82,9 +71,10 @@ class Review(models.Model):
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
     created_at = models.DateTimeField(auto_now=True)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="reviews")
-    review = models.TextField(max_length=500)
     subject = models.CharField(max_length=100, blank=True)
     rating = models.IntegerField(default=0,validators=[MaxValueValidator(5),MinValueValidator(0)])
+    review = models.TextField(max_length=500)
+
 
     def __str__(self):
         return f"{self.subject}"
