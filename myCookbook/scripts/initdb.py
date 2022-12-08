@@ -1,7 +1,6 @@
 import csv
 from myCookbook.models import User,Recipe,Category
 from django.utils.text import slugify
-from autoslug import AutoSlugField
 
 FNAME1 = "myCookbook/seeddata/users.csv"
 FNAME2 = "myCookbook/seeddata/recipes.csv"

@@ -4,7 +4,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
-from autoslug import AutoSlugField
 
 class User(AbstractUser):
     THEMES = (
@@ -73,5 +72,9 @@ class Recipe(models.Model):
                               default='myCookbook/images/recipeImages/defaultImage.jpeg', blank=True, verbose_name="Recipe Image")
     def __str__(self):
         return f"{self.name}"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Recipe,self).save(*args, **kwargs)
 
     
