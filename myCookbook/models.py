@@ -44,14 +44,6 @@ class Category(models.Model):
         return f"{self.name}"
 
 class Recipe(models.Model):
-    RATINGS = (
-        ('0', '0'),
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5')
-    )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
@@ -65,7 +57,6 @@ class Recipe(models.Model):
     num_servings = models.IntegerField(null=True,validators=[MinValueValidator(1)])
     min = models.IntegerField(null=True, validators=[
                               MinValueValidator(1), MaxValueValidator(1000)])
-    rating = models.IntegerField(null=True,blank=True,choices=RATINGS)
     savers = models.ManyToManyField(
         User, blank=True, related_name="saved_recipes")
     image = models.ImageField(upload_to='myCookbook/images/recipeImages',
@@ -87,4 +78,13 @@ class Recipe(models.Model):
         self.slug = slugify(self.name + self.author.first_name)
         super(Recipe,self).save(*args, **kwargs)
 
-    
+class Review(models.Model):
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+    created_at = models.DateTimeField(auto_now=True)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="reviews")
+    review = models.TextField(max_length=500)
+    subject = models.CharField(max_length=100, blank=True)
+    rating = models.IntegerField(default=0,validators=[MaxValueValidator(5),MinValueValidator(0)])
+
+    def __str__(self):
+        return f"{self.subject}"
