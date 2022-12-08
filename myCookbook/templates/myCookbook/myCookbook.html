@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block main %}
-
-
+<h1>My Cookbook</h1>
+{% for r in recipes %}
+    <h1>{{r.name}}</h1>
+{% endfor %}
 {% endblock %}

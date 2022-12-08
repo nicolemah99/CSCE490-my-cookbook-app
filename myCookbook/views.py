@@ -130,8 +130,9 @@ def register(request):
 
 
 def myCookbook(request):
-    return render(request, "myCookbook/myCookbook.html")
-
+    return render(request,'myCookbook/myCookbook.html',{
+        'recipes':request.user.saved_recipes.all()
+    })
 
 def profile(request):
     currentUser = User.objects.get(username = request.user)
@@ -149,10 +150,7 @@ class editRecipe(UpdateView):
     model = Recipe
     fields = ["name",'description','categories','num_servings','min','image']
     success_url = 'myCookbook/profile.html'
-def my_cookbook(request):
-    return render(request,'myCookbook/myCookbook.html',{
-        'recipes':request.user.saved_recipes
-    })
+
 def api_toggle(request):
     if not request.user.is_authenticated:
         return JsonResponse({})
