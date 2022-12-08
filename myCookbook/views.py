@@ -149,8 +149,7 @@ def profile(request):
 
 class deleteRecipe(DeleteView):
     model = Recipe
-    success_url = reverse_lazy('profile')
-    template_name = 'myCookbook/profile.html'
+    success_url = '/profile'
 
 class editRecipe(UpdateView):
     model = Recipe

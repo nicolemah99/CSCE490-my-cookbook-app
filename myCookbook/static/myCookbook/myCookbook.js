@@ -11,6 +11,8 @@ if (document.querySelector('form') != undefined) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+
+    update_counters();
     if (document.querySelector('.toggle_saved') != undefined) {
 
         document.querySelectorAll('.toggle_saved').forEach(button => {
@@ -34,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(response => response.json())
                     .then(data => {
                         update_button_display(this, data.in_cookbook);
+                        update_innerHTML('#ms', data['my_saves'])
                     })
                     .catch(error => {
                         console.log("*** api/toggle error **", error);

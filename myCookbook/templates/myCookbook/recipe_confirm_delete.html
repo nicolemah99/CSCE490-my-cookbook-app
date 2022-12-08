@@ -1,0 +1,15 @@
+{% extends "myCookbook/layout.html" %}
+{% load static %}
+{% block title %}
+    <title>Contact Us</title>
+{% endblock %}
+
+{% block main %}
+<form method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+ 
+    <input type="submit" value="Delete">
+</form>
+
+{% endblock %}
