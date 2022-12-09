@@ -8,43 +8,76 @@
 {% if user.is_authenticated %}
 <img class="toggle_saved" data-recipe_id="{{ recipe.id }}" src="{% static 'myCookbook/hollow-star.png' %}">
 {% endif %}
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h1 class="display-5">{{ recipe.name }}</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h3>Ingredients</h3>
-        </div>
-    </div>
-    <div class="row">
-        <ul>
-            {% for i in newIngredients %}
-            <li>
-                {% for x in i %}
-                {{x}}
-                {% endfor %}
-            </li>
-            {% endfor %}
-        </ul>
 
-    </div>
-    <div class="row">
-        <div class="col">
-            <h3>Instructions</h3>
+<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'allRecipes' %}">Recipes</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{recipe.name}}</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
     </div>
     <div class="row">
-        <ul>
-            {% for i in newInstructions %}
-            <li>
-                {{i}}
-            </li>
-            {% endfor %}
-        </ul>
+        <div class="col align-self-center">
+            <h1>{{ recipe.name }}</h1>
+            <img class="image" src="{{ recipe.image.url }}" style="width:500px;cursor: pointer;">
+
+            <div id="image" hidden>
+                <img width="1400" height="900" src="{{ recipe.image.url }}">
+            </div>
+        </div>
     </div>
-    <a href="{% url 'createReview' recipe.id %}">Review</a>
-</div>
-{% endblock %}
+
+    <div class="row">
+        <div class="col-6">
+            <h3>Ingredients</h3>
+            <ul class="list-group">
+                {% for i in newIngredients %}
+                <li class="list-group-item">
+                    {% for x in i %}
+                    {{x}}
+                    {% endfor %}
+                </li>
+                {% endfor %}
+            </ul>
+            <br>
+            
+            <h3>Reviews</h3>
+            <a href="{% url 'createReview' recipe.id %}">Review</a>
+            <div class="row">
+                {% for r in reviews %}
+                {{r}}
+                {% endfor %}
+
+            </div>
+        </div>
+        <div class="col-6">
+            <h3>Instructions</h3>
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                {% for i in newInstructions %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-heading{{forloop.counter}}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapse{{forloop.counter}}" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapse{{forloop.counter}}">
+                            Step {{forloop.counter}}
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapse{{forloop.counter}}" class="accordion-collapse collapse show"
+                        aria-labelledby="panelsStayOpen-heading{{forloop.counter}}">
+                        <div class="accordion-body">
+                            {{i}}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+    {% endblock %}

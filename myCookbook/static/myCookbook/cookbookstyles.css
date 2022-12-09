@@ -61,3 +61,7 @@ div.sticky{
     position: sticky;
     top: 0;
 }
+
+.detailImage{
+    width: 40%;
+}

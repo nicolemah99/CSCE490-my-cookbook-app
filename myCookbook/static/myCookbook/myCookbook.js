@@ -154,3 +154,8 @@ function update_counters() {
         console.log('**** api/counters error **', error);
     });
 }
+
+function lightbox(){
+    const imageInstance = basicLightbox.create(document.querySelector('#image'))
+    document.querySelector('img.image').onclick = imageInstance.show
+}

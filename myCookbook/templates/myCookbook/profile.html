@@ -10,6 +10,7 @@
 <div class="container">
     <h5 class="display-5 text-center font-white">Chef {{ user.first_name }} {{ user.last_name }}</h5>
     <br>
+    <a href="{% url 'password_change' %}"> Change Password</a>
     <div class="card mb-3 p-5">
         <div class="row g-0">
             <div class="col-md-4 pb-2">
