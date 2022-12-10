@@ -73,7 +73,7 @@
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
                                                                 onclick="checkBox()">
-                                                            <label class="form-check-label" for="flexCheckDefault">
+                                                            <label style="background-color:white;" class="form-check-label" for="flexCheckDefault">
                                                                 {% for x in i %}
                                                                 {{x}}
                                                                 {% endfor %}
@@ -87,7 +87,7 @@
                                 
                                             <div class="row">
                                                 <div class="accordion" id="accordionPanelsStayOpenExample">
-                                                    {% for i in r.instructions %}
+                                                    {% for i in r.instructions|newInstructions %}
                                                     <div class="accordion-item">
                                                         <h2 class="accordion-header" id="panelsStayOpen-heading{{forloop.counter}}">
                                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
