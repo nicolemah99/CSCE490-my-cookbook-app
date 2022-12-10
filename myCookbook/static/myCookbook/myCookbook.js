@@ -13,6 +13,16 @@ if (document.querySelector('form') != undefined) {
 document.addEventListener('DOMContentLoaded', function () {
 
     update_counters();
+    if (document.querySelector('.ratings') != undefined){
+        const ratingBlock = document.querySelector(".ratings");
+            var rating = ratingBlock.dataset.rating;
+            for (let i = 0; i < rating; i++) {
+                var star = document.createElement('i');
+                star.className = "bi bi-star-fill";
+                ratingBlock.appendChild(star);
+        }
+        
+    }
     if (document.querySelector('.toggle_saved') != undefined) {
 
         document.querySelectorAll('.toggle_saved').forEach(button => {
@@ -118,6 +128,7 @@ function addIngredientElement() {
 
     element.append(IG);
 }
+
 
 function clearForm() {
     var form = document.getElementById('recipeSubmit');

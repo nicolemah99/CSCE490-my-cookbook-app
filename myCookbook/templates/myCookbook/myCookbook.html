@@ -1,21 +1,153 @@
 {% extends "myCookbook/layout.html" %}
 {% load static %}
+{% load custom_tags %}
 {% block title %}
-    <title>My Cookbook</title>
+<title>My Cookbook</title>
 {% endblock %}
 
 {% block main %}
-<h1>My Cookbook</h1>
-<h2>Save Recipes</h2>
-{% for r in savedRecipes %}
-    <p>{{r.name}}</p>
-    <img class="toggle_saved" data-recipe_id="{{ r.id }}" src="{% static 'myCookbook/filled-star.png' %}">
-    {% empty %}
-    <p>No recipes saved to your cookbook</p>
-    <a href="{% url 'allRecipes' %}">Explore Recipes to Add</a>
-{% endfor %}
-<h3>My Recipes</h3>
-{% for r in myRecipes %}
-    <p>{{r.name}}</p>
-{% endfor %}
+<div class="container text-center">
+    <div class="row my-5">
+        <div class="col">
+            <h1>My Cookbook</h1>
+        </div>
+    </div>
+</div>
+
+<div class="mytabs">
+    <input type="radio" id="tabsave" name="mytabs" checked="checked">
+    <label for="tabsave">Saved Recipes</label>
+    <div class="tab">
+        <div class="row text-center">
+            <h2>Saved Recipes</h2>
+        </div>
+        {% for r in savedRecipes %}
+        <div class="row">
+            <div class="col-4">
+                <img style="width: 250px; height: 250px;object-fit:cover;" src="{{r.image}}" alt="">
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <h4>{{r.name}}</h4>
+                    </div>
+                    <div class="col">
+                        {% if user.is_authenticated %}
+                        <img class="toggle_saved" data-recipe_id="{{ r.id }}"
+                            src="{% static 'myCookbook/bookmark-filled.svg' %}">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p>{{r.description}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal{{forloop.counter}}">View Recipe</button>
+
+                        <!-- Modal -->
+                        <div class="modal modal-lg fade" id="exampleModal{{forloop.counter}}" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel{{forloop.counter}}">
+                                            {{r.name}}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <!--Modal Body-->
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <div class="row">
+                                                <img src="{{r.image}}" alt="">
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-group">
+                                                    {% for i in r.ingredients|newIngredients %}
+                                                    <li class="list-group-item">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                                                                onclick="checkBox()">
+                                                            <label class="form-check-label" for="flexCheckDefault">
+                                                                {% for x in i %}
+                                                                {{x}}
+                                                                {% endfor %}
+                                                            </label>
+                                                        </div>
+
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                
+                                            <div class="row">
+                                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                                    {% for i in r.instructions %}
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="panelsStayOpen-heading{{forloop.counter}}">
+                                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                                data-bs-target="#panelsStayOpen-collapse{{forloop.counter}}" aria-expanded="true"
+                                                                aria-controls="panelsStayOpen-collapse{{forloop.counter}}">
+                                                                Step {{forloop.counter}}
+                                                            </button>
+                                                        </h2>
+                                                        <div id="panelsStayOpen-collapse{{forloop.counter}}" class="accordion-collapse collapse show"
+                                                            aria-labelledby="panelsStayOpen-heading{{forloop.counter}}">
+                                                            <div class="accordion-body">
+                                                                {{i}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <a class="btn btn-primary" href="{% url 'recipeDetail' r.slug %}">View Full
+                                            Recipe</a>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <input type="radio" id="tabmy" name="mytabs">
+    <label for="tabmy">My Recipes</label>
+    <div class="tab">
+        <h2>My Recipes</h2>
+        {% for r in myRecipes %}
+        <p>{{r.name}}</p>
+        {% endfor %}
+    </div>
+
+    <input type="radio" id="taball" name="mytabs">
+    <label for="taball">All Recipes</label>
+    <div class="tab">
+        <h2>All Recipes</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur.</p>
+    </div>
+
+</div>
 {% endblock %}

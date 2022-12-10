@@ -94,6 +94,7 @@ class RecipeDetailView(DetailView):
         context['newIngredients'] = newIngredients
         context['newInstructions'] = self.object.instructions.replace(';',',').split(':')
         context['reviews'] = Review.objects.filter(recipe=self.object.id)
+        
         return context
         
 def contactUs(request):

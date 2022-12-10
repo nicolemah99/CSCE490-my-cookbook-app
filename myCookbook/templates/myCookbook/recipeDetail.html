@@ -1,83 +1,135 @@
 {% extends "myCookbook/layout.html" %}
 {% load static %}
+{% load bootstrap_icons %}
 {% block title %}
 <title>Recipe</title>
 {% endblock %}
 
 {% block main %}
-{% if user.is_authenticated %}
-<img class="toggle_saved" data-recipe_id="{{ recipe.id }}" src="{% static 'myCookbook/hollow-star.png' %}">
-{% endif %}
-
-<div class="container">
-    <div class="container">
+<div class="bg-image" style="background-image:url('{{recipe.image.url}}');">
+    <div class="container pt-3">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'allRecipes' %}">Recipes</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{recipe.name}}</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'allRecipes' %}">Recipes</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{{recipe.name}}</li>
-                    </ol>
-                </nav>
+                <div class="d-flex justify-content-center mb-3" id="title"
+                    style="background-color: rgba(255, 255, 255, 0.7);">
+                    <h1>{{ recipe.name }}</h1>
+                    {% if user.is_authenticated %}
+                    <img class="toggle_saved" data-recipe_id="{{ recipe.id }}"
+                        src="{% static 'myCookbook/bookmark-hollow.svg' %}">
+                    {% endif %}
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col align-self-center">
-            <h1>{{ recipe.name }}</h1>
-            <img class="image" src="{{ recipe.image.url }}" style="width:500px;cursor: pointer;">
-
-            <div id="image" hidden>
-                <img width="1400" height="900" src="{{ recipe.image.url }}">
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-6">
-            <h3>Ingredients</h3>
-            <ul class="list-group">
-                {% for i in newIngredients %}
-                <li class="list-group-item">
-                    {% for x in i %}
-                    {{x}}
-                    {% endfor %}
-                </li>
-                {% endfor %}
-            </ul>
-            <br>
-            
-            <h3>Reviews</h3>
-            <a href="{% url 'createReview' recipe.id %}">Review</a>
             <div class="row">
-                {% for r in reviews %}
-                {{r}}
-                {% endfor %}
-
-            </div>
-        </div>
-        <div class="col-6">
-            <h3>Instructions</h3>
-            <div class="accordion" id="accordionPanelsStayOpenExample">
-                {% for i in newInstructions %}
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="panelsStayOpen-heading{{forloop.counter}}">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#panelsStayOpen-collapse{{forloop.counter}}" aria-expanded="true"
-                            aria-controls="panelsStayOpen-collapse{{forloop.counter}}">
-                            Step {{forloop.counter}}
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapse{{forloop.counter}}" class="accordion-collapse collapse show"
-                        aria-labelledby="panelsStayOpen-heading{{forloop.counter}}">
-                        <div class="accordion-body">
-                            {{i}}
+                <div class="col">
+                    <div class="d-flex justify-content-center">
+                        <img class="image img-fluid" src="{{ recipe.image.url }}" style="width:500px;cursor: pointer;">
+                        <div id="image" hidden>
+                            <img width="1400" height="900" src="{{ recipe.image.url }}">
                         </div>
                     </div>
                 </div>
-                {% endfor %}
             </div>
+            <div class="row py-3">
+                <div class="col">
+                    <div class="d-flex justify-content-center">
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Servings:</strong> {{recipe.num_servings}}</li>
+                            <li class="list-group-item"><strong><i class="bi bi-clock"></i> Total time:</strong>
+                                {{recipe.min}} min
+                            </li>
+                            <li class="list-group-item"><strong><i class="bi bi-person-circle"></i> Posted by:</strong>
+                                {{recipe.author}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col-6">
+                <div class="d-flex justify-content-center mb-3">
+                    <h3>Ingredients</h3>
+                </div>
+                <ul class="list-group mx-5">
+                    {% for i in newIngredients %}
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                                onclick="checkBox()">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                {% for x in i %}
+                                {{x}}
+                                {% endfor %}
+                            </label>
+                        </div>
+
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                <div class="d-flex justify-content-center mb-3">
+                    <h3>Reviews</h3>
+                </div>
+                <ul class="list-group mx-5">
+                    {% for r in reviews %}
+                    <li class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1" style="display:inline-block;">{{r.subject}}</h5>
+                            <div class="ratings" id={(forloop.counter}} data-rating="{{ r.rating }}">
+                            </div>
+                            <small class="text-muted">{{r.created_at}}</small>
+                        </div>
+                        <p class="mb-1">{{r.review}}</p>
+                        <small class="text-muted">{{r.reviewer}}</small>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">No Reviews</h5>
+                        </div>
+                        <p class="mb-1">Be the first to review this {{recipe.name}}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <a href="{% url 'createReview' recipe.id %}">Review</a>
+            </div>
+            <div class="col-6">
+                <div class="d-flex justify-content-center mb-3">
+                    <h3>Instructions</h3>
+                </div>
+                <div class="accordion mx-5" id="accordionPanelsStayOpenExample">
+                    {% for i in newInstructions %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-heading{{forloop.counter}}">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapse{{forloop.counter}}" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapse{{forloop.counter}}">
+                                Step {{forloop.counter}}
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapse{{forloop.counter}}" class="accordion-collapse collapse show"
+                            aria-labelledby="panelsStayOpen-heading{{forloop.counter}}">
+                            <div class="accordion-body">
+                                {{i}}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
         </div>
     </div>
     {% endblock %}

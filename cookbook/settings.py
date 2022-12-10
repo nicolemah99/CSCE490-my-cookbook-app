@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myCookbook',
     'django_extensions',
+    'django_bootstrap_icons',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +69,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+                 'custom_tags': 'myCookbook.templatetags.custom_tags',
+            }
         },
     },
 ]
