@@ -7,7 +7,6 @@ FNAME2 = "myCookbook/seeddata/recipes.csv"
 FNAME3 = "myCookbook/seeddata/categories.csv"
 
 def run():
-    users = []
     print(f'Reading file: {FNAME1}')
     with open(FNAME1) as f:
         reader = csv.DictReader(f)
@@ -18,8 +17,9 @@ def run():
             last_name  = row["last_name"]
             email = row["email"]
             bio = row["bio"]
+            slug = slugify(username)
 
-            User.objects.get_or_create(username=username,first_name=first_name,last_name=last_name,email=email,bio=bio)
+            User.objects.get_or_create(username=username,first_name=first_name,last_name=last_name,email=email,bio=bio, slug=slug)
 
     print(f'Reading file: {FNAME2}')
     with open(FNAME2) as f:

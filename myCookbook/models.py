@@ -7,6 +7,7 @@ from django.utils.text import slugify
 
 class User(AbstractUser):
     bio = models.TextField(max_length=500, blank=True)
+    slug = models.SlugField(null=True)
     num_recipes_saved = models.IntegerField(
         default=0, validators=[MinValueValidator(0)], verbose_name="Number of Recipes Saved")
     num_recipes_posted = models.IntegerField(
@@ -17,11 +18,10 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.username}"
 
-    def get_full_name(self) -> str:
-        return super().get_full_name()
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.username)
+        super(User,self).save(*args, **kwargs)
 
-    def get_username(self) -> str:
-        return super().get_username()
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
