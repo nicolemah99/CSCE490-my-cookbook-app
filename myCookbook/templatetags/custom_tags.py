@@ -5,9 +5,9 @@ register = template.Library()
 
 def newIngredients(ingredients):
     newIngredients =[]
-    new = []
     newIngredients = ingredients.split(":")
     newIngredients = views.grouper(3,newIngredients)
+    
     return newIngredients
     
 register.filter('newIngredients', newIngredients)

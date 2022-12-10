@@ -14,6 +14,7 @@ from django.views.generic.detail import DetailView
 from django.contrib import messages
 from itertools import zip_longest
 import random
+from django.db.models import Q
 
 def grouper(n, iterable, fillvalue=None):
     "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
@@ -136,10 +137,13 @@ def register(request):
 
 
 def myCookbook(request):
-    saved = request.user.saved_recipes.all()
-    myRecipes = Recipe.objects.filter(author=request.user)
+    saved = request.user.saved_recipes.all().order_by('name')
+    myRecipes = Recipe.objects.filter(author=request.user).order_by('date_posted')
+    allRecipes = saved | myRecipes
+    allRecipes = allRecipes.all().order_by('name')
+    
     return render(request,'myCookbook/myCookbook.html',{
-        'savedRecipes':saved,'myRecipes': myRecipes
+        'savedRecipes':saved,'myRecipes': myRecipes, 'allRecipes':allRecipes
     })
 
 def profile(request):

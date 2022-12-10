@@ -79,6 +79,7 @@
                     {% endfor %}
                 </ul>
                 <br>
+                <!--Reviews-->
                 <div class="d-flex justify-content-center mb-3">
                     <h3>Reviews</h3>
                 </div>
@@ -99,12 +100,19 @@
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">No Reviews</h5>
                         </div>
-                        <p class="mb-1">Be the first to review this {{recipe.name}}</p>
+                        <p class="mb-1">Be the first to review {{recipe.name}}</p>
                     </li>
                     {% endfor %}
                 </ul>
-                <a href="{% url 'createReview' recipe.id %}">Review</a>
+                <div class="row my-5">
+                    <div class="col text-center">
+                        <h4>Have you tried this recipe?</h4>
+                        <a class="btn btn-light" href="{% url 'createReview' recipe.id %}">Leave a Review</a>
+                    </div>
+                </div>
+
             </div>
+            <!--Instructions-->
             <div class="col-6">
                 <div class="d-flex justify-content-center mb-3">
                     <h3>Instructions</h3>
