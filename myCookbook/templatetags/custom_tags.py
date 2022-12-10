@@ -1,5 +1,6 @@
 from django import template
 from myCookbook import views
+from datetime import datetime
 
 register = template.Library()
 
@@ -19,3 +20,7 @@ def newInstructions(instructions):
     return newInstructions
 
 register.filter('newInstructions',newInstructions)
+
+def convertDate(value):
+    return value.date()
+register.filter('convertDate',convertDate)

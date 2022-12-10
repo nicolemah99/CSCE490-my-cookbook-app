@@ -67,7 +67,7 @@
                                             <div class="row justify-content-center">
                                                 <div class="col-8 text-center">
                                                     <img class="modalImage"
-                                                        style="width:100%;height:300px;object-fit:cover"
+                                                        
                                                         src="{{r.image}}" alt="">
                                                 </div>
                                                 <div class="col-4">
@@ -191,15 +191,15 @@
                     <div class="col-3">
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-dark" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal{{forloop.counter}}">View Recipe <i class="bi bi-eye"></i></button>
+                            data-bs-target="#myexampleModal{{forloop.counter}}">View Recipe <i class="bi bi-eye"></i></button>
             
                         <!-- Modal -->
-                        <div class="modal modal-lg fade" id="exampleModal{{forloop.counter}}" tabindex="-1"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal modal-lg fade" id="myexampleModal{{forloop.counter}}" tabindex="-1"
+                            aria-labelledby="myexampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel{{forloop.counter}}">
+                                        <h1 class="modal-title fs-5" id="myexampleModalLabel{{forloop.counter}}">
                                             {{r.name}}</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
@@ -210,7 +210,7 @@
                                             <div class="row justify-content-center">
                                                 <div class="col-8 text-center">
                                                     <img class="modalImage"
-                                                        style="width:100%;height:300px;object-fit:cover"
+
                                                         src="{{r.image}}" alt="">
                                                 </div>
                                                 <div class="col-4">
@@ -341,15 +341,15 @@
                     <div class="col-3">
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-dark" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal{{forloop.counter}}">View Recipe <i class="bi bi-eye"></i></button>
+                            data-bs-target="#allexampleModal{{forloop.counter}}">View Recipe <i class="bi bi-eye"></i></button>
             
                         <!-- Modal -->
-                        <div class="modal modal-lg fade" id="exampleModal{{forloop.counter}}" tabindex="-1"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal modal-lg fade" id="allexampleModal{{forloop.counter}}" tabindex="-1"
+                            aria-labelledby="allexampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel{{forloop.counter}}">
+                                        <h1 class="modal-title fs-5" id="allexampleModalLabel{{forloop.counter}}">
                                             {{r.name}}</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>

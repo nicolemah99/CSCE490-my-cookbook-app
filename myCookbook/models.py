@@ -19,6 +19,7 @@ class User(AbstractUser):
         return f"{self.username}"
 
     def save(self, *args, **kwargs):
+        
         self.slug = slugify(self.username)
         super(User,self).save(*args, **kwargs)
 

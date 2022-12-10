@@ -146,12 +146,19 @@ def myCookbook(request):
         'savedRecipes':saved,'myRecipes': myRecipes, 'allRecipes':allRecipes
     })
 
-def profile(request):
-    currentUser = User.objects.get(username = request.user)
-    recipes = Recipe.objects.filter(author=currentUser)
-    numRecipes = len(recipes)
-    User.objects.filter(username=request.user).update(num_recipes_posted=numRecipes)
-    return render(request, "myCookbook/profile.html", {'user':currentUser, 'recipes':recipes})
+class Profile(DetailView):
+    model = User
+    template_name = 'myCookbook/profile.html'
+    context_object_name = 'user'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recipes'] = Recipe.objects.filter(author=self.object.id)
+        context['num_recipes_posted'] = len(context['recipes'])
+        context['recipes_saved'] = self.object.saved_recipes.all()
+        context['num_recipes_saved'] = len(self.object.saved_recipes.all())
+        return context
+    
 
 class deleteRecipe(DeleteView):
     model = Recipe
