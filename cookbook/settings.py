@@ -145,7 +145,7 @@ LOGOUT_REDIRECT_URL = "/"
 
 #EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'send_emails')
-SENDGRID_API_KEY = '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'
+SENDGRID_API_KEY = ''
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'
