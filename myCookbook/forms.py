@@ -14,7 +14,7 @@ class UserForm(forms.ModelForm):
                    'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Last Name", "required": True}),
                    'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': "Password", "required": True}),
                    'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Email", "required": True}),
-                   'bio': forms.Textarea(attrs={'class': 'form-control', 'placeholder': "Share a bit about yourself!"}),
+                   'bio': forms.Textarea(attrs={'class': 'form-control','id':'my-textarea', 'placeholder': "Share a bit about yourself!"}),
                    'profile_image': forms.FileInput(attrs={'class': 'form-control-file'}),
                    }
 
@@ -27,7 +27,7 @@ class RecipeForm(forms.ModelForm):
                   'min', 'image', 'instructions')
         widgets = {'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Name"}),
                    'categories': forms.CheckboxSelectMultiple(),
-                   'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': "Description"}),
+                   'description': forms.Textarea(attrs={'class': 'form-control','id':'my-textarea' , 'placeholder': "Description"}),
                    'num_servings': forms.NumberInput(attrs={'class': 'form-control'}),
                    'min': forms.NumberInput(attrs={'class': 'form-control'}),
                    'image': forms.FileInput(attrs={'class': 'form-control-file', "name": 'image'})
@@ -44,6 +44,6 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ('subject', 'review','rating',)
         widgets = {'subject': forms.TextInput(attrs={'class': 'form-control','placeholder':'Subject'}),
-                    'review': forms.Textarea(attrs={'class':'form-control','placeholder':'Share your experience'}),
+                    'review': forms.Textarea(attrs={'class':'form-control','id':'my-textarea','placeholder':'Share your experience'}),
                     'rating': forms.NumberInput(attrs={'class': 'form-control'})
         }

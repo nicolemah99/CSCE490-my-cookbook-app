@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
 
 class User(AbstractUser):
-    bio = models.TextField(max_length=500, blank=True)
+    bio = models.TextField(max_length=250, blank=True)
     slug = models.SlugField(null=True)
     num_recipes_saved = models.IntegerField(
         default=0, validators=[MinValueValidator(0)], verbose_name="Number of Recipes Saved")
@@ -41,7 +41,7 @@ class Recipe(models.Model):
     categories = models.ManyToManyField(Category, blank=True, related_name="recipes")
     instructions = models.TextField(null=True)
     ingredients = models.TextField(null=True)
-    description = models.TextField(max_length=500)
+    description = models.TextField(max_length=250)
     date_posted = models.DateField(
         default=date.today, verbose_name="Date Posted")
     num_servings = models.IntegerField(null=True,validators=[MinValueValidator(1)])
@@ -74,7 +74,7 @@ class Review(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="reviews")
     subject = models.CharField(max_length=100, blank=True)
     rating = models.IntegerField(default=0,validators=[MaxValueValidator(5),MinValueValidator(0)])
-    review = models.TextField(max_length=500)
+    review = models.TextField(max_length=250)
 
 
     def __str__(self):
