@@ -5,20 +5,34 @@
 {% endblock %}
 
 {% block main %}
-<div class="container text-center mt-5">
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <h1>All Recipes</h1>
+        </div>
+    </div>
     <div class="row">
         <div class="col-2">
             <div class="container text-start">
                 <div class="row">
                     <div class="col">
+                        <h3>Filter By Category</h3>
                         {% for c in categories %}
+                        <form method="GET">
                         <div class="row">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked{{c.id}}">
-                                <label class="form-check-label" for="flexCheckChecked{{c.id}}">{{c.name}}</label>
+                                {% if c.name == queryCategory.name %}
+                                <input class="form-check-input" type="radio" name='w' value="{{c.id}}" id="flexRadioDefault1{{c.id}}" checked>
+                                <label class="form-check-label" for="flexRadioDefault1{{c.id}}">{{c.name}}</label>
+                                {% else %}
+                                <input class="form-check-input" type="radio" name='w' value="{{c.id}}" id="flexRadioDefault1{{c.id}}">
+                                <label class="form-check-label" for="flexRadioDefault1{{c.id}}">{{c.name}}</label>
+                                {% endif %}
                             </div>
                         </div>
                         {% endfor %}
+                        <input class="button btn btn-primary" type='submit' value="Search">
+                    </form>
                     </div>
                 </div>
             </div>
@@ -39,11 +53,25 @@
                 </div>
             </div>
             <div class="row text-center my-3">
-                <div class="h2">All Recipes</div>
+                <div class="row">
+                    <div class="col-2">
+                        <a href="{% url 'allRecipes' %}" class="btn btn-secondary">Clear All</a>
+                    </div>
+                </div>
             </div>
 
-
-
+            <div class="row my-3 text-center">
+            {% if querySearch %}
+            <div class="col">
+                <h4>Results for: "{{querySearch}}"</h4>
+            </div>
+            {% endif %}
+            {% if queryCategory %}
+            <div class="col">
+                <h4>Results for: "{{queryCategory}}"</h4>
+            </div>
+            {% endif %}
+            </div>
             <div class="row row-cols-3 gy-5 gx-2">
                 {% for r in recipes %}
                 <div class="col">
@@ -54,9 +82,14 @@
                                 <h6>{{r.name}}</h6>
                             </div>
                         </div>
-
                     </a>
+
                 </div>
+                {% empty %}
+                    <div class="col-3 offset-4">
+                        <h3>No Recipes Found.</h3>
+                    </div>
+       
                 {% endfor %}
             </div>
 

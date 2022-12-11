@@ -13,6 +13,23 @@ if (document.querySelector('form') != undefined) {
 document.addEventListener('DOMContentLoaded', function () {
 
     update_counters();
+    
+    if (document.querySelector('#averageRating') != undefined){
+        const averageRating = document.querySelector('#averageRating');
+        const recipe_id = averageRating.dataset.recipe_id;
+        console.log(`recipeID:${recipe_id}`);
+
+        fetch(`/api/rating?recipe_id=${recipe_id}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.avg)
+            addRatingStars(data.avg);
+        })
+        .catch(error => {
+            console.log("*** api/rating error **", response.json());
+        })
+
+    }
     if (document.querySelector('.ratings') != undefined){
         const ratingBlock = document.querySelector(".ratings");
             var rating = ratingBlock.dataset.rating;
@@ -26,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (document.querySelector('.toggle_saved') != undefined) {
 
         document.querySelectorAll('.toggle_saved').forEach(button => {
-            console.log(button)
             const recipe_id = parseInt(button.dataset.recipe_id);
 
             fetch(`/api/saved?recipe_id=${recipe_id}`)
@@ -56,6 +72,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
+function addRatingStars(rating){
+    const ratingDiv = document.querySelector('#averageRating');
+    
+    for (let i = 0; i < rating; i++) {
+        var star = document.createElement('i');
+                star.className = "bi bi-star-fill";
+                ratingDiv.appendChild(star);
+      }
+
+};
 
 function addInstructionElement() {
     const element = document.getElementById("instructionList");
@@ -128,7 +154,6 @@ function addIngredientElement() {
 
     element.append(IG);
 }
-
 
 function clearForm() {
     var form = document.getElementById('recipeSubmit');

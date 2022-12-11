@@ -15,6 +15,7 @@ from django.contrib import messages
 from itertools import zip_longest
 import random
 
+
 def grouper(n, iterable, fillvalue=None):
     "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
     args = [iter(iterable)] * n
@@ -41,7 +42,7 @@ class addRecipe(LoginRequiredMixin,View):
             instructions = request.POST.getlist('instructions')
             instructions = ':'.join(str(x) for x in instructions).replace(',',';')
             ingredients = request.POST.getlist('ingredients')
-            ingredients = grouper(3,ingredients)
+            ingredients = ':'.join(str(x) for x in ingredients)
             newRecipe.instructions = instructions
             newRecipe.ingredients = ingredients
             newRecipe.save()
@@ -70,8 +71,12 @@ class RecipeListView(ListView):
     
     def get_queryset(self):
         query = self.request.GET.get('q')
+        query1 = self.request.GET.get('w')
+
         if query:
             object_list = self.model.objects.filter(name__icontains=query)
+        elif query1:
+            object_list = self.model.objects.filter(categories__in=query1)
         else:
             object_list = self.model.objects.all().order_by('date_posted')
         return object_list
@@ -79,6 +84,11 @@ class RecipeListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all().order_by('name')
+        if self.request.GET.get('q'):
+            context['querySearch']= self.request.GET.get('q')
+            
+        if self.request.GET.get('w'):
+            context['queryCategory']= Category.objects.get(id=self.request.GET.get('w'))
         return context
 
 class RecipeDetailView(DetailView):
@@ -204,6 +214,22 @@ def api_counters(request):
         counts['my_recipes'] = Recipe.objects.filter(author=user).count()
         counts['my_saves'] = user.saved_recipes.all().count()
     return JsonResponse(counts)
+
+def api_rating(request):
+    recipe_id = request.GET['recipe_id']
+    recipe = Recipe.objects.get(id=recipe_id)
+    reviews = Review.objects.filter(recipe=recipe)
+    totalRatings = len(reviews)
+    addRatings = 0
+    for rating in reviews:
+        addRatings += rating.rating
+
+    avgRating = addRatings/totalRatings
+    ratings = {
+        'avg': avgRating
+    }
+    return JsonResponse(ratings)
+
 
 def leaveReview(request, recipeID):
     recipe = Recipe.objects.get(id=recipeID)

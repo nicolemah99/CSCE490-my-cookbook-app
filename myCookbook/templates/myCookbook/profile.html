@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block main %}
-<div class="container">
-    <h5 class="display-5 text-center my-5">Chef {{ user.username }}</h5>
+<div class="container" style="height: 600px;">
+    <h5 class="display-5 text-center">Chef {{ user.username }}</h5>
     {% if message %}
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <strong>{{ message }}</strong>
