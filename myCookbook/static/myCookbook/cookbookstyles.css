@@ -33,12 +33,17 @@ a{
     border-radius: 10px;
 }
 .bg-image{
+    height: 100%;
     background-repeat: no-repeat;
     background-size: cover;
     background-color: rgba(255,255,255,0.7);
     background-blend-mode: lighten;
-
 }
+
+.orange-bg{
+    background-color: rgba(245,185,140,0.7);
+}
+
 .white-text-background{
     background-color: rgba(255,255,255,0.7);
     padding-top: 10px;

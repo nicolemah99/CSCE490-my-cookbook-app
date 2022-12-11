@@ -14,7 +14,6 @@ from django.views.generic.detail import DetailView
 from django.contrib import messages
 from itertools import zip_longest
 import random
-from django.db.models import Q
 
 def grouper(n, iterable, fillvalue=None):
     "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
@@ -112,7 +111,6 @@ def register(request):
         username = request.POST["username"]
         email = request.POST["email"]
         bio = request.POST["bio"]
-        theme = request.POST["theme"]
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -125,7 +123,7 @@ def register(request):
         # Attempt to create new user
         try:
             user = User.objects.create_user(
-                username=username, email=email, password=password, theme=theme, bio=bio)
+                username=username, email=email, password=password, bio=bio)
             user.save()
         except IntegrityError:
             return render(request, "myCookbook/signUp.html", {'form': UserForm,

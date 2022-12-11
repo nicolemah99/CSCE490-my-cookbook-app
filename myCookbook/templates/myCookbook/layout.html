@@ -78,19 +78,14 @@
     </header>
     <main>
         {% if message %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Yay!</strong> {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            </button>
-        </div>
-        {% endif %}
         {% for m in messages %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Yay!</strong> {{ m }}
+        <div class="alert alert-dismissible fade show" role="alert">
+            {{ m }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
             </button>
         </div>
         {% endfor %}
+        {% endif %}
         {% block main %}
         {% endblock %}
     </main>
