@@ -181,3 +181,105 @@ myTextArea.addEventListener('input', () => {
     remainingCharsText.textContent = `${remaining} characters remaining`;
     remainingCharsText.style.color = color;
 });
+
+const oneStar = document.getElementById('oneStar');
+const twoStar= document.getElementById('twoStar');
+const threeStar = document.getElementById('threeStar');
+const fourStar = document.getElementById('fourStar');
+const fiveStar = document.getElementById('fiveStar');
+const rating = document.getElementById('rating');
+
+oneStar.addEventListener('mouseover',() => {
+    oneStar.className = 'bi bi-star-fill';
+});
+
+twoStar.addEventListener('mouseover',() => {
+    oneStar.className = 'bi bi-star-fill';
+    twoStar.className = 'bi bi-star-fill';
+});
+
+threeStar.addEventListener('mouseover',() => {
+    oneStar.className = 'bi bi-star-fill';
+    twoStar.className = 'bi bi-star-fill';
+    threeStar.className = 'bi bi-star-fill';
+});
+
+fourStar.addEventListener('mouseover',() => {
+    oneStar.className = 'bi bi-star-fill';
+    twoStar.className = 'bi bi-star-fill';
+    threeStar.className = 'bi bi-star-fill';
+    fourStar.className = 'bi bi-star-fill';
+});
+
+fiveStar.addEventListener('mouseover',() => {
+    oneStar.className = 'bi bi-star-fill';
+    twoStar.className = 'bi bi-star-fill';
+    threeStar.className = 'bi bi-star-fill';
+    fourStar.className = 'bi bi-star-fill';
+    fiveStar.className = 'bi bi-star-fill';
+});
+
+oneStar.addEventListener('mouseleave',() => {
+    oneStar.className = 'bi bi-star';
+});
+
+twoStar.addEventListener('mouseleave',() => {
+    oneStar.className = 'bi bi-star';
+    twoStar.className = 'bi bi-star';
+});
+
+threeStar.addEventListener('mouseleave',() => {
+    oneStar.className = 'bi bi-star';
+    twoStar.className = 'bi bi-star';
+    threeStar.className = 'bi bi-star';
+});
+
+fourStar.addEventListener('mouseleave',() => {
+    oneStar.className = 'bi bi-star';
+    twoStar.className = 'bi bi-star';
+    threeStar.className = 'bi bi-star';
+    fourStar.className = 'bi bi-star';
+});
+
+fiveStar.addEventListener('mouseleave',() => {
+    oneStar.className = 'bi bi-star';
+    twoStar.className = 'bi bi-star';
+    threeStar.className = 'bi bi-star';
+    fourStar.className = 'bi bi-star';
+    fiveStar.className = 'bi bi-star';
+});
+
+oneStar.addEventListener('click',() => {
+    oneStar.className = 'bi bi-star-fill';
+    rating.value = 1;
+});
+
+twoStar.addEventListener('click',() => {
+    oneStar.className = 'bi bi-star-fill';
+    twoStar.className = 'bi bi-star-fill';
+    rating.value = 2;
+});
+
+threeStar.addEventListener('click',() => {
+    oneStar.className = 'bi bi-star-fill';
+    twoStar.className = 'bi bi-star-fill';
+    threeStar.className = 'bi bi-star-fill';
+    rating.value = 3;
+});
+
+fourStar.addEventListener('click',() => {
+    oneStar.className = 'bi bi-star-fill';
+    twoStar.className = 'bi bi-star-fill';
+    threeStar.className = 'bi bi-star-fill';
+    fourStar.className = 'bi bi-star-fill';
+    rating.value = 4;
+});
+
+fiveStar.addEventListener('click',() => {
+    oneStar.className = 'bi bi-star-fill';
+    twoStar.className = 'bi bi-star-fill';
+    threeStar.className = 'bi bi-star-fill';
+    fourStar.className = 'bi bi-star-fill';
+    fiveStar.className = 'bi bi-star-fill';
+    rating.value = 5;
+});

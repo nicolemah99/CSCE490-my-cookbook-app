@@ -127,7 +127,23 @@
                                         <div class="container">
                                             <form class="text-start" action="{% url 'leaveReview' recipe.id %}" method="POST">
                                                 {% csrf_token %}
-                                                {{form.as_table}}
+                                                <div class="form-floating py-2">
+                                                    {{ form.subject }}
+                                                    <label for="subject" class="form-label">Subject</label>
+                                                </div>
+
+                                                <div class="form-floating py-2">
+                                                    {{ form.review }}
+                                                    <label for="review" class="form-label">Review</label>
+                                                </div>
+                                                <div class="py-2">
+                                                    <div class="stars">
+                                                        <i class="bi bi-star" id="oneStar"></i><i class="bi bi-star" id="twoStar"></i><i class="bi bi-star" id="threeStar"></i><i class="bi bi-star" id="fourStar"></i><i class="bi bi-star" id="fiveStar"></i>
+                                                    </div>
+                                                    {{form.rating}}
+
+                                                </div>
+                                                
                                         
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"

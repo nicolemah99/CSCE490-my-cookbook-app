@@ -45,5 +45,5 @@ class ReviewForm(forms.ModelForm):
         fields = ('subject', 'review','rating',)
         widgets = {'subject': forms.TextInput(attrs={'class': 'form-control','placeholder':'Subject'}),
                     'review': forms.Textarea(attrs={'class':'form-control','id':'my-textarea','placeholder':'Share your experience'}),
-                    'rating': forms.NumberInput(attrs={'class': 'form-control'})
+                    'rating': forms.NumberInput(attrs={'class': 'form-control','id':'rating'})
         }

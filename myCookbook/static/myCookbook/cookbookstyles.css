@@ -18,6 +18,14 @@ body{
     margin-top: 5px;
     text-align: right;
 }
+.bi-star{
+    font-size: 30px;
+    padding: 3px;
+}
+.bi-star-fill{
+    font-size: 30px;
+    padding: 3px;
+}
 a{
     color: #000;
 }

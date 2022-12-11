@@ -186,7 +186,6 @@ def api_toggle(request):
         'in_cookbook': in_cookbook,
         'my_saves': request.user.saved_recipes.all().count()
     }
-    print(f'api_toggle called. returning {status}')
     return JsonResponse(status)
 
 def api_saved(request):
@@ -198,7 +197,6 @@ def api_saved(request):
     status = {
         'in_cookbook': recipe.savers.filter(id=request.user.id).exists()
     }
-    print(f'api_savers called. returning {status}')
     return JsonResponse(status)
 
 def api_counters(request):
@@ -207,7 +205,6 @@ def api_counters(request):
     if user.is_authenticated:
         counts['my_recipes'] = Recipe.objects.filter(author=user).count()
         counts['my_saves'] = user.saved_recipes.all().count()
-    print(f'api_counters called. returning {counts}')
     return JsonResponse(counts)
 
 def leaveReview(request, recipeID):
