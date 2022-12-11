@@ -6,33 +6,23 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
 
 class User(AbstractUser):
-    THEMES = (
-        ('light', 'White'),
-        ('dark', 'Black'),
-        ('secondary', 'Grey'),
-        ('primary', 'Blue'),
-        ('success', 'Green'),
-        ('warning', 'Yellow'),
-        ('danger', 'Red'),
-        ('info', 'Teal'),
-    )
-    bio = models.TextField(max_length=500, blank=True)
+    bio = models.TextField(max_length=250, blank=True)
+    slug = models.SlugField(null=True)
     num_recipes_saved = models.IntegerField(
         default=0, validators=[MinValueValidator(0)], verbose_name="Number of Recipes Saved")
     num_recipes_posted = models.IntegerField(
         default=0, validators=[MinValueValidator(0)], verbose_name="Number of Recipes Posted")
     profile_image = models.ImageField(upload_to='myCookbook/images/recipeImages',
                                       default='myCookbook/images/recipeImages/default_profile.png', null=True, blank=True, verbose_name="Profile Image")
-    theme = models.CharField(default=THEMES[0], max_length=9, choices=THEMES)
 
     def __str__(self):
         return f"{self.username}"
 
-    def get_full_name(self) -> str:
-        return super().get_full_name()
+    def save(self, *args, **kwargs):
+        
+        self.slug = slugify(self.username)
+        super(User,self).save(*args, **kwargs)
 
-    def get_username(self) -> str:
-        return super().get_username()
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
@@ -44,14 +34,6 @@ class Category(models.Model):
         return f"{self.name}"
 
 class Recipe(models.Model):
-    RATINGS = (
-        ('0', '0'),
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5')
-    )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
@@ -59,13 +41,12 @@ class Recipe(models.Model):
     categories = models.ManyToManyField(Category, blank=True, related_name="recipes")
     instructions = models.TextField(null=True)
     ingredients = models.TextField(null=True)
-    description = models.TextField(max_length=500)
+    description = models.TextField(max_length=250)
     date_posted = models.DateField(
         default=date.today, verbose_name="Date Posted")
     num_servings = models.IntegerField(null=True,validators=[MinValueValidator(1)])
     min = models.IntegerField(null=True, validators=[
                               MinValueValidator(1), MaxValueValidator(1000)])
-    rating = models.IntegerField(null=True,blank=True,choices=RATINGS)
     savers = models.ManyToManyField(
         User, blank=True, related_name="saved_recipes")
     image = models.ImageField(upload_to='myCookbook/images/recipeImages',
@@ -87,4 +68,14 @@ class Recipe(models.Model):
         self.slug = slugify(self.name + self.author.first_name)
         super(Recipe,self).save(*args, **kwargs)
 
-    
+class Review(models.Model):
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+    created_at = models.DateTimeField(auto_now=True)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="reviews")
+    subject = models.CharField(max_length=100, blank=True)
+    rating = models.IntegerField(default=0,validators=[MaxValueValidator(5),MinValueValidator(0)])
+    review = models.TextField(max_length=250)
+
+
+    def __str__(self):
+        return f"{self.subject}"

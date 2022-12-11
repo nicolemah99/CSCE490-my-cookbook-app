@@ -1,10 +1,55 @@
 {% extends "myCookbook/layout.html" %}
 {% load static %}
 {% block title %}
-    <title>Contact Us</title>
+<title>Contact Us</title>
 {% endblock %}
 
 {% block main %}
+<div class="bg-image" style="background-image:url('myCookbook/images/recipeImages/map.jpeg');">
+    <div class="container">
+        <div class="alert alert-danger" role="alert">
+            <strong>Sorry!</strong> System is Currently Under Maintenence.
+          </div>
+        <div class="row">
+            <div class="col-6 offset-3 my-5 text-center">
+                <h1>Contact Us</h1>
+                <form novalidate>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating py-2">
+                                <input type="text" id="first_name" class="form-control" required
+                                    placeholder="First Name">
+                                <label for="first_name" class="form-label">First Name</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating py-2">
+                                <input type="text" id="last_name" class="form-control" required placeholder="Last Name">
+                                <label for="last_name" class="form-label">Last Name</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating py-2">
+                        <input type="email" id="email" class="form-control" required placeholder="Email">
+                        <label for="email" class="form-label">Email</label>
+                    </div>
+                    <div class="form-floating py-2">
+                        <input type="text" id="subject" class="form-control" required placeholder="Subject">
+                        <label for="subject" class="form-label">Subject</label>
+                    </div>
+                    <div class="form-floating py-2">
+                        <label for="my-textarea">What's on your mind?</label>
+
+                        <textarea id="my-textarea" class="form-control" maxlength="500"></textarea>
+                        <div id="my-textarea-remaining-chars">250 characters remaining</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 
 {% endblock %}

@@ -1,20 +1,69 @@
-main{
+body{
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .carousel-caption{
     color: white;
-    background-color:rgba(0, 0, 0, 0.6);
+    background-color:rgba(0, 0, 0, 0.7);
     padding: 10px;
     border-radius: 10px;
 }
-.recipeButtons{
-    width: 75px;
-
+#my-textarea{
+    width: 100%;
+    height: 150px;
 }
-.recipeSquare{
+#my-textarea-remaining-chars{
+    color: #333333;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+    text-align: right;
+}
+.bi-star{
+    font-size: 30px;
+    padding: 3px;
+}
+.bi-star-fill{
+    font-size: 30px;
+    padding: 3px;
+}
+a{
+    color: #000;
+}
+.index-img{
+    border-radius: 10px;
+}
+.bg-image{
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(255,255,255,0.7);
+    background-blend-mode: lighten;
+}
+
+.orange-bg{
+    background-color: rgba(245,185,140,0.7);
+}
+.grey-bg{
+    background-color: rgba(211,211,211,0.7);
+}
+
+.white-text-background{
+    background-color: rgba(255,255,255,0.7);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 10px;
+}
+.profileImage{
     width: 300px;
     height: 300px;
+    object-fit: cover;
 }
+.recipeButtons{
+    width: 75px;
+}
+
 a{
     text-decoration: none;
 }
@@ -25,7 +74,7 @@ a{
 .carousel-image{
     width: 100%;
     height: 500px;
-    object-fit: fill;
+    object-fit: cover;
 }
 .recipe-img-sm{
     width: 300px;
@@ -37,27 +86,58 @@ a{
     height: 250px;
     object-fit: cover;
 }
-.roundImage {
-    border-radius: 50%;
-    width: 80%;
-    height: 100%;
+.modalImage{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
 }
 
-.background{
-    width: 100%;
-    height: 100%;
-    background-color:rgba(245, 245, 220);
-}
 .font-white {
     color: black;
 }
-
-.recipe-card{
-    background-color: white;
-    border-radius: 10px;
+.recipeCard{
+    width: 300px;
+    height: 300px;
 }
-div.sticky{
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
+.recipeImageCard{
+    height: 250px;
+    object-fit: cover;
+}
+
+.detailImage{
+    width: 40%;
+}
+.mytabs {
+    display: flex;
+    flex-wrap: wrap;
+
+    margin: 50px auto;
+    padding: 25px;
+}
+.mytabs input[type="radio"] {
+    display: none;
+}
+.mytabs label {
+    padding: 25px;
+    background: #d0d0d0;
+    font-weight: bold;
+}
+
+.mytabs .tab {
+    width: 100%;
+    padding: 20px;
+    background: whitesmoke;
+    order: 1;
+    display: none;
+}
+.mytabs .tab h2 {
+    font-size: 3em;
+}
+
+.mytabs input[type='radio']:checked + label + .tab {
+    display: block;
+}
+
+.mytabs input[type="radio"]:checked + label {
+    background: whitesmoke;
 }

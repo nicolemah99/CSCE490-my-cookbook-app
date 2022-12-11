@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
+from django.urls import reverse
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myCookbook',
     'django_extensions',
+    'django_bootstrap_icons',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +69,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+                 'custom_tags': 'myCookbook.templatetags.custom_tags',
+            }
         },
     },
 ]
@@ -134,18 +140,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = "/"
 
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'send_emails')
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+SENDGRID_API_KEY = ''
 
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_HOST = 'smtp.sendgrid.net'
-#EMAIL_HOST_USER = 'apikey'
-#EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
-#EMAIL_PORT = 587
-#EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
-#DEFAULT_FROM_EMAIL = ' mnmah@alaska.edu'
+DEFAULT_FROM_EMAIL = 'mnmah@alaska.edu'
 

@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block main %}
-<div class="container">
+<div class="container my-5">
+    <div class="col-6 offset-3 text-center">
     {% if message %}
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <strong>Wait!</strong> {{ message }}
@@ -43,22 +44,23 @@
         <div class="form-floating py-2">
             {{ form.bio }}
             <label for="bio" class="form-label">Tell us about yourself</label>
+            <div id="my-textarea-remaining-chars">250 characters remaining</div>
         </div>
-        <div class="py-2">
-            {{ form.theme }}
-        </div>
-        <div class="py-2">
+        <div class="py-2 text-start">
             {{ form.profile_image }}
         </div>
 
 
-        <input type="submit" value="Sign Up" class="btn btn-primary">
+        <input type="submit" value="Sign Up" class="btn btn-primary btn-lg">
     </form>
+    <div class="row text-center my-5">
+        <div class="col">
+            <h4>Already have an account?</h4>
+            <a class="btn btn-secondary" href="{% url 'login' %}">Log In Here</a>
+        </div>
+    </div>
 
-    <p>
-        Already have an account? <a href="{% url 'login' %}">Log In here.</a>
-    </p>
-
+</div>
 </div>
 
 {% endblock %}

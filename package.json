@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "basiclightbox": "^5.0.4",
+    "bootstrap-icons": "^1.10.2"
+  }
+}

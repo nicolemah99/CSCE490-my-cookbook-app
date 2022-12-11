@@ -1,0 +1,42 @@
+{% extends "myCookbook/layout.html" %}
+{% load static %}
+{% block title %}
+    <title>Edit Profile</title>
+{% endblock %}
+
+{% block main %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <h1 class="text-center">Edit Profile</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class=" py-2">
+                    {{ form.username }}
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class=" py-2">
+                            {{ form.first_name }}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class=" py-2">
+                            {{ form.last_name }}
+                        </div>
+                    </div>
+                </div>
+                <div class="py-2">
+                    {{ form.email }}
+                </div>
+                <div class="py-2">
+                    {{ form.bio }}
+                    <div id="my-textarea-remaining-chars">250 characters remaining</div>
+                </div>
+                <a href="{% url 'profile' user.slug %}" class="btn btn-secondary">Cancel</a>
+                <input type="submit" value="Save" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

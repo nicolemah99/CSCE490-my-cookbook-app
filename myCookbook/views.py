@@ -6,14 +6,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from .models import User, Recipe, Category
-from .forms import UserForm, RecipeForm
+from .models import Review, User, Recipe, Category
+from .forms import EditUserForm, UserForm, RecipeForm, ReviewForm
 from django.views.generic.edit import CreateView,DeleteView,UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib import messages
 from itertools import zip_longest
 import random
+
 
 def grouper(n, iterable, fillvalue=None):
     "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
@@ -25,7 +26,10 @@ def index(request):
     randomRecipes = random.sample(allRecipes,3)
     return render(request, "myCookbook/index.html", {'recipes':randomRecipes})
 
-class addRecipe(View):
+
+class addRecipe(LoginRequiredMixin,View):
+    login_url = 'login'
+
     def get(self, request):
         recipeForm = RecipeForm
         return render(request, "myCookbook/addRecipe.html", {"form": recipeForm})
@@ -36,8 +40,9 @@ class addRecipe(View):
             newRecipe = form.save(commit=False)
             newRecipe.author = request.user
             instructions = request.POST.getlist('instructions')
+            instructions = ':'.join(str(x) for x in instructions).replace(',',';')
             ingredients = request.POST.getlist('ingredients')
-            ingredients = grouper(3,ingredients)
+            ingredients = ':'.join(str(x) for x in ingredients)
             newRecipe.instructions = instructions
             newRecipe.ingredients = ingredients
             newRecipe.save()
@@ -66,15 +71,24 @@ class RecipeListView(ListView):
     
     def get_queryset(self):
         query = self.request.GET.get('q')
+        query1 = self.request.GET.get('w')
+
         if query:
             object_list = self.model.objects.filter(name__icontains=query)
+        elif query1:
+            object_list = self.model.objects.filter(categories__in=query1)
         else:
-            object_list = self.model.objects.all()
+            object_list = self.model.objects.all().order_by('date_posted')
         return object_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all().order_by('name')
+        if self.request.GET.get('q'):
+            context['querySearch']= self.request.GET.get('q')
+            
+        if self.request.GET.get('w'):
+            context['queryCategory']= Category.objects.get(id=self.request.GET.get('w'))
         return context
 
 class RecipeDetailView(DetailView):
@@ -89,6 +103,9 @@ class RecipeDetailView(DetailView):
         newIngredients = grouper(3,newIngredients)
         context['newIngredients'] = newIngredients
         context['newInstructions'] = self.object.instructions.replace(';',',').split(':')
+        context['reviews'] = Review.objects.filter(recipe=self.object.id)
+        context['form'] = ReviewForm
+        
         return context
         
 def contactUs(request):
@@ -104,7 +121,6 @@ def register(request):
         username = request.POST["username"]
         email = request.POST["email"]
         bio = request.POST["bio"]
-        theme = request.POST["theme"]
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -117,7 +133,7 @@ def register(request):
         # Attempt to create new user
         try:
             user = User.objects.create_user(
-                username=username, email=email, password=password, theme=theme, bio=bio)
+                username=username, email=email, password=password, bio=bio)
             user.save()
         except IntegrityError:
             return render(request, "myCookbook/signUp.html", {'form': UserForm,
@@ -130,23 +146,32 @@ def register(request):
 
 
 def myCookbook(request):
-    saved = request.user.saved_recipes.all()
-    myRecipes = Recipe.objects.filter(author=request.user)
+    saved = request.user.saved_recipes.all().order_by('name')
+    myRecipes = Recipe.objects.filter(author=request.user).order_by('date_posted')
+    allRecipes = saved | myRecipes
+    allRecipes = allRecipes.all().order_by('name')
+    
     return render(request,'myCookbook/myCookbook.html',{
-        'savedRecipes':saved,'myRecipes': myRecipes
+        'savedRecipes':saved,'myRecipes': myRecipes, 'allRecipes':allRecipes
     })
 
-def profile(request):
-    currentUser = User.objects.get(username = request.user)
-    recipes = Recipe.objects.filter(author=currentUser)
-    numRecipes = len(recipes)
-    User.objects.filter(username=request.user).update(num_recipes_posted=numRecipes)
-    return render(request, "myCookbook/profile.html", {'user':currentUser, 'recipes':recipes})
+class Profile(DetailView):
+    model = User
+    template_name = 'myCookbook/profile.html'
+    context_object_name = 'user'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recipes'] = Recipe.objects.filter(author=self.object.id)
+        context['num_recipes_posted'] = len(context['recipes'])
+        context['recipes_saved'] = self.object.saved_recipes.all()
+        context['num_recipes_saved'] = len(self.object.saved_recipes.all())
+        return context
+    
 
 class deleteRecipe(DeleteView):
     model = Recipe
-    success_url = reverse_lazy('profile')
-    template_name = 'myCookbook/profile.html'
+    success_url = reverse_lazy('myCookbook')
 
 class editRecipe(UpdateView):
     model = Recipe
@@ -169,7 +194,6 @@ def api_toggle(request):
         'in_cookbook': in_cookbook,
         'my_saves': request.user.saved_recipes.all().count()
     }
-    print(f'api_toggle called. returning {status}')
     return JsonResponse(status)
 
 def api_saved(request):
@@ -181,7 +205,6 @@ def api_saved(request):
     status = {
         'in_cookbook': recipe.savers.filter(id=request.user.id).exists()
     }
-    print(f'api_savers called. returning {status}')
     return JsonResponse(status)
 
 def api_counters(request):
@@ -190,5 +213,41 @@ def api_counters(request):
     if user.is_authenticated:
         counts['my_recipes'] = Recipe.objects.filter(author=user).count()
         counts['my_saves'] = user.saved_recipes.all().count()
-    print(f'api_counters called. returning {counts}')
     return JsonResponse(counts)
+
+def api_rating(request):
+    recipe_id = request.GET['recipe_id']
+    recipe = Recipe.objects.get(id=recipe_id)
+    reviews = Review.objects.filter(recipe=recipe)
+    totalRatings = len(reviews)
+    addRatings = 0
+    for rating in reviews:
+        addRatings += rating.rating
+
+    avgRating = addRatings/totalRatings
+    ratings = {
+        'avg': avgRating
+    }
+    return JsonResponse(ratings)
+
+
+def leaveReview(request, recipeID):
+    recipe = Recipe.objects.get(id=recipeID)
+    
+    if request.POST:
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.recipe = recipe
+            obj.reviewer = request.user
+            obj.save()
+            messages.success(request,f'Review of {obj.recipe.name} posted')
+        return redirect(f"index")
+
+class EditUser(UpdateView):
+    model = User
+    form_class = EditUserForm
+
+    def get_success_url(self):
+          slug=self.kwargs['slug']
+          return reverse_lazy('profile', kwargs={'slug': slug})
