@@ -88,6 +88,9 @@
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1" style="display:inline-block;">{{r.subject}}</h5>
                             <div class="ratings" id={(forloop.counter}} data-rating="{{ r.rating }}">
+                                <div id="{(forloop.counter}}">
+
+                                </div>
                             </div>
                             <small class="text-muted">{{r.created_at}}</small>
                         </div>
@@ -138,9 +141,9 @@
                                                 </div>
                                                 <div class="py-2">
                                                     <div class="stars">
-                                                        <i class="bi bi-star" id="oneStar"></i><i class="bi bi-star" id="twoStar"></i><i class="bi bi-star" id="threeStar"></i><i class="bi bi-star" id="fourStar"></i><i class="bi bi-star" id="fiveStar"></i>
+                                                        <i class="bi bi-star" id="oneStar"></i><i class="bi bi-star" id="twoStar"></i><i class="bi bi-star" id="threeStar"></i><i class="bi bi-star" id="fourStar"></i><i class="bi bi-star" id="fiveStar"></i>{{form.rating}}
                                                     </div>
-                                                    {{form.rating}}
+                                                    
 
                                                 </div>
                                                 

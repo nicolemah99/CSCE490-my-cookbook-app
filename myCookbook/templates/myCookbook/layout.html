@@ -296,6 +296,7 @@
         const fiveStar = document.getElementById('fiveStar');
         const rating = document.getElementById('rating');
 
+
         oneStar.addEventListener('mouseover',() => {
             oneStar.className = 'bi bi-star-fill';
         });
@@ -317,44 +318,16 @@
             threeStar.className = 'bi bi-star-fill';
             fourStar.className = 'bi bi-star-fill';
         });
-
-        fiveStar.addEventListener('mouseover',() => {
+        function fivestar(){
             oneStar.className = 'bi bi-star-fill';
             twoStar.className = 'bi bi-star-fill';
             threeStar.className = 'bi bi-star-fill';
             fourStar.className = 'bi bi-star-fill';
             fiveStar.className = 'bi bi-star-fill';
-        });
 
-        oneStar.addEventListener('mouseleave',() => {
-            oneStar.className = 'bi bi-star';
-        });
+        };
+        fiveStar.addEventListener('mouseover',fivestar());
 
-        twoStar.addEventListener('mouseleave',() => {
-            oneStar.className = 'bi bi-star';
-            twoStar.className = 'bi bi-star';
-        });
-
-        threeStar.addEventListener('mouseleave',() => {
-            oneStar.className = 'bi bi-star';
-            twoStar.className = 'bi bi-star';
-            threeStar.className = 'bi bi-star';
-        });
-
-        fourStar.addEventListener('mouseleave',() => {
-            oneStar.className = 'bi bi-star';
-            twoStar.className = 'bi bi-star';
-            threeStar.className = 'bi bi-star';
-            fourStar.className = 'bi bi-star';
-        });
-
-        fiveStar.addEventListener('mouseleave',() => {
-            oneStar.className = 'bi bi-star';
-            twoStar.className = 'bi bi-star';
-            threeStar.className = 'bi bi-star';
-            fourStar.className = 'bi bi-star';
-            fiveStar.className = 'bi bi-star';
-        });
         
         oneStar.addEventListener('click',() => {
             oneStar.className = 'bi bi-star-fill';
@@ -389,6 +362,7 @@
             fourStar.className = 'bi bi-star-fill';
             fiveStar.className = 'bi bi-star-fill';
             rating.value = 5;
+            fiveStar.removeEventListener('mouseleave',fivestar);
         });
 
         

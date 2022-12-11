@@ -74,7 +74,7 @@ class RecipeListView(ListView):
         if query:
             object_list = self.model.objects.filter(name__icontains=query)
         else:
-            object_list = self.model.objects.all()
+            object_list = self.model.objects.all().order_by('date_posted')
         return object_list
 
     def get_context_data(self, **kwargs):
