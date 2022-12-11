@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from .models import Review, User, Recipe, Category
-from .forms import UserForm, RecipeForm, ReviewForm
+from .forms import EditUserForm, UserForm, RecipeForm, ReviewForm
 from django.views.generic.edit import CreateView,DeleteView,UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -163,7 +163,7 @@ class Profile(DetailView):
 
 class deleteRecipe(DeleteView):
     model = Recipe
-    success_url = '/profile'
+    success_url = reverse_lazy('myCookbook')
 
 class editRecipe(UpdateView):
     model = Recipe
@@ -209,7 +209,6 @@ def api_counters(request):
 
 def leaveReview(request, recipeID):
     recipe = Recipe.objects.get(id=recipeID)
-    slug = recipe.slug
     
     if request.POST:
         form = ReviewForm(request.POST)
@@ -220,3 +219,11 @@ def leaveReview(request, recipeID):
             obj.save()
             messages.success(request,f'Review of {obj.recipe.name} posted')
         return redirect(f"index")
+
+class EditUser(UpdateView):
+    model = User
+    form_class = EditUserForm
+
+    def get_success_url(self):
+          slug=self.kwargs['slug']
+          return reverse_lazy('profile', kwargs={'slug': slug})

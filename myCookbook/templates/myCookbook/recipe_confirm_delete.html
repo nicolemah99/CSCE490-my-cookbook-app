@@ -5,11 +5,18 @@
 {% endblock %}
 
 {% block main %}
-<form method="post">
-    {% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
- 
-    <input type="submit" value="Delete">
-</form>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-5 offset-4">
+            <h1>Delete Recipe</h1>
+            <form method="post">
+                {% csrf_token %}
+                <p>Are you sure you want to delete "{{ object }}"?</p>
+                <a href="{% url 'myCookbook' %}" class="btn btn-secondary">Cancel</a>
+                <input class="btn btn-primary" type="submit" value="Delete">
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

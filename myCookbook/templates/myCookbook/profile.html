@@ -8,6 +8,13 @@
 {% block main %}
 <div class="container">
     <h5 class="display-5 text-center my-5">Chef {{ user.username }}</h5>
+    {% if message %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+    {% endif %}
     <div class="row">
         <div class="col-4">
             <img class="img-fluid profileImage"
@@ -15,17 +22,17 @@
                 src="{{user.profile_image.url}}">
         </div>
         <div class="col-4">
-                <h3>{{user.first_name}} {{user.last_name}}</h3>
-                <p>{{user.bio}}</p>
-                <ul class="list-group my-3">
-                    <li class="list-group-item"><strong>Number of Recipes Posted: </strong>{{num_recipes_posted}}</li>
-                    <li class="list-group-item"><strong>Number of Recipes Saved: </strong>{{num_recipes_saved}}</li>
-                    <li class="list-group-item"><strong>Member since: </strong>{{ user.date_joined|convertDate }}</li>
-                  </ul>
+            <h3>{{user.first_name}} {{user.last_name}}</h3>
+            <p>{{user.bio}}</p>
+            <ul class="list-group my-3">
+                <li class="list-group-item"><strong>Number of Recipes Posted: </strong>{{num_recipes_posted}}</li>
+                <li class="list-group-item"><strong>Number of Recipes Saved: </strong>{{num_recipes_saved}}</li>
+                <li class="list-group-item"><strong>Member since: </strong>{{ user.date_joined|convertDate }}</li>
+            </ul>
 
-                <div class="col">
-                    <a class="btn btn-dark" href="{% url 'password_change' %}"> Change Password</a>
-                    <a class="btn btn-dark" href="{% url 'password_change' %}"> Edit Profile</a>
+            <div class="col">
+                <a class="btn btn-dark" href="{% url 'password_change' %}"> Change Password</a>
+                <a class="btn btn-dark" href="{% url 'editUser' user.slug %}"> Edit Profile</a>
             </div>
         </div>
     </div>

@@ -45,5 +45,17 @@ class ReviewForm(forms.ModelForm):
         fields = ('subject', 'review','rating',)
         widgets = {'subject': forms.TextInput(attrs={'class': 'form-control','placeholder':'Subject'}),
                     'review': forms.Textarea(attrs={'class':'form-control','id':'my-textarea','placeholder':'Share your experience'}),
-                    'rating': forms.NumberInput(attrs={'class': 'form-control','id':'rating'})
+                    'rating': forms.NumberInput(attrs={'class': 'form-control','id':'rating', 'hidden':True})
         }
+
+class EditUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields =("username",'first_name','last_name','bio','email','profile_image')
+        widgets = {'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Username", "required": True}),
+                   'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "First Name", "required": True}),
+                   'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Last Name", "required": True}),
+                   'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Email", "required": True}),
+                   'bio': forms.Textarea(attrs={'class': 'form-control','id':'my-textarea', 'placeholder': "Share a bit about yourself!"}),
+                   'profile_image': forms.FileInput(attrs={'class': 'form-control-file'}),
+                   }
