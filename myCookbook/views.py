@@ -95,6 +95,7 @@ class RecipeDetailView(DetailView):
         context['newIngredients'] = newIngredients
         context['newInstructions'] = self.object.instructions.replace(';',',').split(':')
         context['reviews'] = Review.objects.filter(recipe=self.object.id)
+        context['form'] = ReviewForm
         
         return context
         
@@ -209,17 +210,16 @@ def api_counters(request):
     print(f'api_counters called. returning {counts}')
     return JsonResponse(counts)
 
-class CreateReview(LoginRequiredMixin,CreateView):
-    model = Review
-    form_class = ReviewForm
-    login_url = 'login'
-
-    def form_valid(self, form, *args, **kwargs):
-        form.instance.recipe = Recipe.objects.get(id=self.kwargs['recipeID'])
-        form.instance.reviewer = self.request.user
+def leaveReview(request, recipeID):
+    recipe = Recipe.objects.get(id=recipeID)
+    slug = recipe.slug
     
-        form.save()
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('recipeDetail', kwargs={'slug': self.object.recipe.slug})
+    if request.POST:
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.recipe = recipe
+            obj.reviewer = request.user
+            obj.save()
+            messages.success(request,f'Review of {obj.recipe.name} posted')
+        return redirect(f"index")

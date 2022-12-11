@@ -22,9 +22,8 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="d-flex justify-content-center mb-3" id="title"
-                    style="background-color: rgba(255, 255, 255, 0.7);">
-                    <h1>{{ recipe.name }}</h1>
+                <div class="d-flex justify-content-center mb-3" id="title">
+                    <h1 class="white-text-background">{{ recipe.name }}</h1>
                     {% if user.is_authenticated %}
                     <img class="toggle_saved" data-recipe_id="{{ recipe.id }}"
                         src="{% static 'myCookbook/bookmark-hollow.svg' %}">
@@ -36,7 +35,7 @@
                     <div class="d-flex justify-content-center">
                         <img class="image img-fluid" src="{{ recipe.image.url }}" style="width:500px;cursor: pointer;">
                         <div id="image" hidden>
-                            <img width="1400" height="900" src="{{ recipe.image.url }}">
+                            <img id="image" width="1400" height="900" src="{{ recipe.image.url }}">
                         </div>
                     </div>
                 </div>
@@ -60,7 +59,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="d-flex justify-content-center mb-3">
-                    <h3>Ingredients</h3>
+                    <h3 class="white-text-background">Ingredients</h3>
                 </div>
                 <ul class="list-group mx-5">
                     {% for i in newIngredients %}
@@ -81,7 +80,7 @@
                 <br>
                 <!--Reviews-->
                 <div class="d-flex justify-content-center mb-3">
-                    <h3>Reviews</h3>
+                    <h3 class="white-text-background">Reviews</h3>
                 </div>
                 <ul class="list-group mx-5">
                     {% for r in reviews %}
@@ -107,15 +106,49 @@
                 <div class="row my-5">
                     <div class="col text-center">
                         <h4>Have you tried this recipe?</h4>
-                        <a class="btn btn-light" href="{% url 'createReview' recipe.id %}">Leave a Review</a>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                            Leave a Review
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Leave a Review for
+                                            {{recipe.name}}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <form class="text-start" action="{% url 'leaveReview' recipe.id %}" method="POST">
+                                                {% csrf_token %}
+                                                {{form.as_table}}
+                                        
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button class="btn btn-primary">Submit Review</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
             </div>
+
             <!--Instructions-->
             <div class="col-6">
                 <div class="d-flex justify-content-center mb-3">
-                    <h3>Instructions</h3>
+                    <h3 class="white-text-background">Instructions</h3>
                 </div>
                 <div class="accordion mx-5" id="accordionPanelsStayOpenExample">
                     {% for i in newInstructions %}

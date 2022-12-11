@@ -26,10 +26,10 @@ urlpatterns = [
     path("<pk>/delete", views.deleteRecipe.as_view(), name='deleteRecipe'),
     path(r'editRecipe/(?P<pk>[0-9]+)/$', views.editRecipe.as_view(), name='editRecipe'),
     path('recipes/<slug:slug>', views.RecipeDetailView.as_view(), name='recipeDetail'),
+    path('leaveReview/<str:recipeID>', views.leaveReview, name='leaveReview'),
 
     path("api/counters", views.api_counters, name="api-counters"),
     path("api/toggle", views.api_toggle, name="api-toggle"),
     path("api/saved", views.api_saved, name="api-saved"),
 
-    path('createReview/<str:recipeID>', views.CreateReview.as_view(), name='createReview'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
