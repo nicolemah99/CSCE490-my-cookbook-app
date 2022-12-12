@@ -29,7 +29,6 @@ urlpatterns = [
     path('allRecipes',views.RecipeListView.as_view(), name='allRecipes'),
     path('c/<str:category>', views.CategoryView.as_view(), name='category'),
     path("<pk>/delete", views.deleteRecipe.as_view(), name='deleteRecipe'),
-    path(r'editRecipe/(?P<pk>[0-9]+)/$', views.editRecipe.as_view(), name='editRecipe'),
     path('recipes/<slug:slug>', views.RecipeDetailView.as_view(), name='recipeDetail'),
     path('leaveReview/<str:recipeID>', views.leaveReview, name='leaveReview'),
     path('editUser/<slug:slug>',views.EditUser.as_view(), name='editUser'),
