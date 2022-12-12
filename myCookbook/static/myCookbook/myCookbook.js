@@ -191,10 +191,6 @@ function update_counters() {
     });
 }
 
-function lightbox(){
-    const imageInstance = basicLightbox.create(document.querySelector('#image'))
-    document.querySelector('img.image').onclick = imageInstance.show
-}
 
 const myTextArea = document.getElementById('my-textarea');
 const remainingCharsText = document.getElementById('my-textarea-remaining-chars');
